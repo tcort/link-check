@@ -3,21 +3,36 @@
 var fs = require('fs');
 var request = require('request');
 
+function LinkCheckResult(link, statusCode, err) {
+    if (!(this instanceof LinkCheckResult)) {
+        return new LinkCheckResult(link, statusCode, err);
+    }
+
+    this.link = link;
+    this.statusCode = statusCode || 0;
+    this.err = err || null;
+    this.status = (this.statusCode === 200) ? 'alive' : 'dead';
+
+    return this;
+}
+
 module.exports = function linkCheck(link, callback) {
-    request.head(link, function (err, res, body) {
+    var options = {
+        headers: {
+            // override 'User-Agent' (some sites return `401` when the user-agent isn't a web browser)
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36',
+        },
+        strictSSL: false
+    };
+    request.head(link, options, function (err, res, body) {
         if (!err && res.statusCode === 200) {
-            callback(null); // alive, returned 200 OK
-        } else if (err) {
-            callback(err); // dead due to error making request (e.g. connection refused)
-        } else {
-            // if HEAD fails (405 Method Not Allowed, etc), try GET
-            request.get(link, function (err, res) {
-                if (!err && res.statusCode === 200) {
-                    callback(null); // alive, returned 200 OK
-                } else {
-                    callback(err || new Error(res.statusCode)); // dead due to non-200 or request error
-                }
-            }).pipe(fs.createWriteStream('/dev/null'));
+            callback(null, new LinkCheckResult(link, res ? res.statusCode : 0, err)); // alive, returned 200 OK
+            return;
         }
+
+        // if HEAD fails (405 Method Not Allowed, etc), try GET
+        request.get(link, options, function (err, res) {
+            callback(null, new LinkCheckResult(link, res ? res.statusCode : 0, err));
+        }).pipe(fs.createWriteStream('/dev/null'));
     });
 };

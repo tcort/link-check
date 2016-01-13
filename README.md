@@ -15,16 +15,20 @@ GET is performed. Redirects are followed.
 
 ## API
 
-### linkCheck(url, callback)
+### linkCheck(link, callback)
 
-Given a `url` and a `callback`, attempt an HTTP HEAD and possibly an HTTP GET.
-If the `url` is alive, `err` will be `null`, otherwise `err` will be set to an
-`Error`.
+Given a `link` and a `callback`, attempt an HTTP HEAD and possibly an HTTP GET.
 
 Parameters:
 
 * `url` string containing a URL.
-* `callback` function which accepts `(err)`. `err` will be `null` if the link is alive, otherwise it will be set to an error.
+* `callback` function which accepts `(err, result)`.
+ * `err` an Error object when the operation cannot be completed, otherwise `null`.
+ * `result` an object with the following properties:
+  * `link` the `link` provided as input
+  * `status` a string set to either `alive` or `dead`.
+  * `statusCode` the HTTP status code. Set to `0` if no HTTP status code was returned (e.g. when the server is down).
+  * `err` any connection error that occurred, otherwise `null`.
 
 ## Examples
 
@@ -32,12 +36,12 @@ Parameters:
 
     var linkCheck = require('link-check');
     
-    linkCheck('http://example.com', function (err) {
+    linkCheck('http://example.com', function (err, result) {
         if (err) {
-            console.log('Link is dead');
-        } else {
-            console.log('Link is alive');
+            console.error('Error', err);
+            return;
         }
+        console.log('%s is %s', result.link, result.status);
     });
 
 ## Testing
