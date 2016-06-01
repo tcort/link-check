@@ -1,6 +1,6 @@
 "use strict";
 
-var fs = require('fs');
+var stream = require('stream');
 var request = require('request');
 
 function LinkCheckResult(link, statusCode, err) {
@@ -33,6 +33,6 @@ module.exports = function linkCheck(link, callback) {
         // if HEAD fails (405 Method Not Allowed, etc), try GET
         request.get(link, options, function (err, res) {
             callback(null, new LinkCheckResult(link, res ? res.statusCode : 0, err));
-        }).pipe(fs.createWriteStream('/dev/null'));
+        }).pipe(new stream.Writable({ write: function (chunk, encoding, next) { next(); } }));
     });
 };
