@@ -1,6 +1,6 @@
 "use strict";
 
-var stream = require('stream');
+var BlackHole = require('./blackhole');
 var request = require('request');
 
 function LinkCheckResult(link, statusCode, err) {
@@ -33,6 +33,6 @@ module.exports = function linkCheck(link, callback) {
         // if HEAD fails (405 Method Not Allowed, etc), try GET
         request.get(link, options, function (err, res) {
             callback(null, new LinkCheckResult(link, res ? res.statusCode : 0, err));
-        }).pipe(new stream.Writable({ write: function (chunk, encoding, next) { next(); } }));
+        }).pipe(new BlackHole());
     });
 };
