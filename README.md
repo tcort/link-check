@@ -15,13 +15,15 @@ GET is performed. Redirects are followed.
 
 ## API
 
-### linkCheck(link, callback)
+### linkCheck(link, [opts,] callback)
 
 Given a `link` and a `callback`, attempt an HTTP HEAD and possibly an HTTP GET.
 
 Parameters:
 
 * `url` string containing a URL.
+* `opts` optional options object containing any of the following optional fields:
+ * `baseUrl` the base URL for relative links.
 * `callback` function which accepts `(err, result)`.
  * `err` an Error object when the operation cannot be completed, otherwise `null`.
  * `result` an object with the following properties:

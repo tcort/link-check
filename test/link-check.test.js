@@ -48,10 +48,32 @@ describe('link-check', function () {
         });
     });
 
+    it('should find that a valid relative link is alive', function (done) {
+        linkCheck('/foo/bar', { baseUrl: baseUrl }, function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be('/foo/bar');
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            expect(result.err).to.be(null);
+            done();
+        });
+    });
+
     it('should find that an invalid link is dead', function (done) {
         linkCheck(baseUrl + '/foo/dead', function (err, result) {
             expect(err).to.be(null);
             expect(result.link).to.be(baseUrl + '/foo/dead');
+            expect(result.status).to.be('dead');
+            expect(result.statusCode).to.be(404);
+            expect(result.err).to.be(null);
+            done();
+        });
+    });
+
+    it('should find that an invalid relative link is dead', function (done) {
+        linkCheck('/foo/dead', { baseUrl: baseUrl }, function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be('/foo/dead');
             expect(result.status).to.be('dead');
             expect(result.statusCode).to.be(404);
             expect(result.err).to.be(null);
