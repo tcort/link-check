@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/tcort/link-check#readme",
   "dependencies": {
+    "isemail": "^2.2.1",
     "request": "^2.75.0"
   },
   "devDependencies": {

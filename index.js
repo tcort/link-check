@@ -1,6 +1,7 @@
 "use strict";
 
 var BlackHole = require('./blackhole');
+var Isemail = require('isemail');
 var request = require('request');
 
 function LinkCheckResult(link, statusCode, err) {
@@ -27,6 +28,11 @@ module.exports = function linkCheck(link, opts, callback) {
         // optional 'opts' not supplied.
         callback = opts;
         opts = {};
+    }
+
+    if (/^mailto:/i.test(link)) {
+        callback(null, new LinkCheckResult(link, Isemail.validate(link.substr(7)) ? 200 : 400, null));
+        return;
     }
 
     var options = {

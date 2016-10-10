@@ -114,4 +114,21 @@ describe('link-check', function () {
         });
     });
 
+    it('should handle valid mailto', function (done) {
+        linkCheck('mailto:linuxgeek@gmail.com', function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be('mailto:linuxgeek@gmail.com');
+            expect(result.status).to.be('alive');
+            done();
+        });
+    });
+
+    it('should handle invalid mailto', function (done) {
+        linkCheck('mailto:foo@@bar@@baz', function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be('mailto:foo@@bar@@baz');
+            expect(result.status).to.be('dead');
+            done();
+        });
+    });
 });
