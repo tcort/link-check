@@ -25,6 +25,10 @@ describe('link-check', function () {
         app.get('/foo/bar', function (req, res) {
             res.json({foo:'bar'});
         });
+
+        app.get('/loop', function (req, res) {
+            res.redirect('/loop');
+        });
         
         var server = http.createServer(app);
         server.listen(0 /* random open port */, 'localhost', function serverListen(err) {
@@ -128,6 +132,17 @@ describe('link-check', function () {
             expect(err).to.be(null);
             expect(result.link).to.be('mailto:foo@@bar@@baz');
             expect(result.status).to.be('dead');
+            done();
+        });
+    });
+
+    it('should handle redirect loops', function (done) {
+        linkCheck(baseUrl + '/loop', function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be(baseUrl + '/loop');
+            expect(result.status).to.be('dead');
+            expect(result.statusCode).to.be(0);
+            expect(result.err.message).to.contain('Exceeded maxRedirects.');
             done();
         });
     });
