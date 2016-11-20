@@ -2,6 +2,7 @@
 
 var BlackHole = require('./blackhole');
 var Isemail = require('isemail');
+var isRelativeUrl = require('is-relative-url');
 var request = require('request');
 
 function LinkCheckResult(link, statusCode, err) {
@@ -15,11 +16,6 @@ function LinkCheckResult(link, statusCode, err) {
     this.status = (this.statusCode === 200) ? 'alive' : 'dead';
 
     return this;
-}
-
-var absoluteLinkMatcher = new RegExp('^(?:[a-z]+:)?//', 'i');
-function isRelativeLink(link) {
-    return !absoluteLinkMatcher.test(link);
 }
 
 module.exports = function linkCheck(link, opts, callback) {
@@ -45,7 +41,7 @@ module.exports = function linkCheck(link, opts, callback) {
         strictSSL: false
     };
 
-    if (opts.baseUrl && isRelativeLink(link)) {
+    if (opts.baseUrl && isRelativeUrl(link)) {
         options.baseUrl = opts.baseUrl;
     }
 
