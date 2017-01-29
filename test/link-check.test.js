@@ -1,9 +1,9 @@
 'use strict';
 
-var expect = require('expect.js');
-var http = require('http');
-var express = require('express');
-var linkCheck = require('../');
+const expect = require('expect.js');
+const http = require('http');
+const express = require('express');
+const linkCheck = require('../');
 
 describe('link-check', function () {
 
@@ -132,6 +132,14 @@ describe('link-check', function () {
             expect(err).to.be(null);
             expect(result.link).to.be('mailto:foo@@bar@@baz');
             expect(result.status).to.be('dead');
+            done();
+        });
+    });
+
+    it('should callback with an error on unsupported protocol', function (done) {
+        linkCheck('gopher://gopher/0/v2/vstat', function (err, result) {
+            expect(result).to.be(null);
+            expect(err).to.be.an(Error);
             done();
         });
     });
