@@ -1,6 +1,6 @@
 "use strict";
 
-var BlackHole = require('./blackhole');
+var BlackHole = require('./lib/BlackHole');
 var Isemail = require('isemail');
 var isRelativeUrl = require('is-relative-url');
 var request = require('request');
@@ -54,6 +54,6 @@ module.exports = function linkCheck(link, opts, callback) {
         // if HEAD fails (405 Method Not Allowed, etc), try GET
         request.get(options, function (err, res) {
             callback(null, new LinkCheckResult(link, res ? res.statusCode : 0, err));
-        }).pipe(new BlackHole());
+        }).pipe(BlackHole);
     });
 };
