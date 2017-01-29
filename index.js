@@ -3,20 +3,8 @@
 var BlackHole = require('./lib/BlackHole');
 var Isemail = require('isemail');
 var isRelativeUrl = require('is-relative-url');
+var LinkCheckResult = require('./lib/LinkCheckResult');
 var request = require('request');
-
-function LinkCheckResult(link, statusCode, err) {
-    if (!(this instanceof LinkCheckResult)) {
-        return new LinkCheckResult(link, statusCode, err);
-    }
-
-    this.link = link;
-    this.statusCode = statusCode || 0;
-    this.err = err || null;
-    this.status = (this.statusCode === 200) ? 'alive' : 'dead';
-
-    return this;
-}
 
 module.exports = function linkCheck(link, opts, callback) {
 
