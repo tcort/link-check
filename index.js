@@ -1,10 +1,14 @@
 "use strict";
 
 var BlackHole = require('./lib/BlackHole');
-var Isemail = require('isemail');
 var isRelativeUrl = require('is-relative-url');
 var LinkCheckResult = require('./lib/LinkCheckResult');
 var request = require('request');
+
+const url = require('url');
+const protocols = {
+    mailto: require('./lib/proto/mailto'),
+};
 
 module.exports = function linkCheck(link, opts, callback) {
 
@@ -14,8 +18,9 @@ module.exports = function linkCheck(link, opts, callback) {
         opts = {};
     }
 
-    if (/^mailto:/i.test(link)) {
-        callback(null, new LinkCheckResult(link, Isemail.validate(link.substr(7)) ? 200 : 400, null));
+    const protocol = (url.parse(link, false, true).protocol || url.parse(opts.baseUrl, false, true).protocol || 'unknown:').replace(/:$/, '');
+    if (protocols.hasOwnProperty(protocol)) {
+        protocols[protocol].check(link, opts.baseUrl, callback);
         return;
     }
 
