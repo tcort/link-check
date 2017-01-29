@@ -136,6 +136,47 @@ describe('link-check', function () {
         });
     });
 
+    it('should handle file protocol', function(done) {
+        linkCheck('fixtures/file.md', { baseUrl: 'file://' + process.cwd() + '/test/' }, function(err, result) {
+            expect(err).to.be(null);
+
+            expect(result.err).to.be(null);
+            expect(result.status).to.be('alive');
+            done()
+        });
+    });
+
+    it('should handle file protocol and invalid files', function(done) {
+        linkCheck('fixtures/missing.md', { baseUrl: 'file://' + process.cwd() + '/test/' }, function(err, result) {
+            expect(err).to.be(null);
+
+            expect(result.err.code).to.be('ENOENT');
+            expect(result.status).to.be('dead');
+            done()
+        });
+    });
+
+    it('should ignore file protocol on absolute links', function(done) {
+        linkCheck(baseUrl + '/foo/bar', { baseUrl: 'file://' }, function(err, result) {
+            expect(err).to.be(null);
+
+            expect(result.link).to.be(baseUrl + '/foo/bar');
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            expect(result.err).to.be(null);
+            done()
+        });
+    });
+
+    it('should ignore file protocol on fragment links', function(done) {
+        linkCheck('#foobar', { baseUrl: 'file://' }, function(err, result) {
+            expect(err).to.be(null);
+
+            expect(result.link).to.be('#foobar');
+            done()
+        });
+    });
+
     it('should callback with an error on unsupported protocol', function (done) {
         linkCheck('gopher://gopher/0/v2/vstat', function (err, result) {
             expect(result).to.be(null);

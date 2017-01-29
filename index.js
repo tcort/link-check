@@ -2,6 +2,7 @@
 
 const url = require('url');
 const protocols = {
+    file: require('./lib/proto/file'),
     http: require('./lib/proto/http'),
     https: require('./lib/proto/https'),
     mailto: require('./lib/proto/mailto'),
