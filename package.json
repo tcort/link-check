@@ -34,9 +34,9 @@
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
-    "express": "^4.14.0",
+    "express": "^4.14.1",
     "jshint": "^2.9.4",
-    "mocha": "^3.1.2"
+    "mocha": "^3.2.0"
   },
   "jshintConfig": {
     "bitwise": true,
