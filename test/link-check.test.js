@@ -168,6 +168,16 @@ describe('link-check', function () {
         });
     });
 
+    it('should resolve from the base on absolute protocol relative links', function(done) {
+        linkCheck('/fixtures/file.md', { baseUrl: 'file://' + process.cwd() + '/test/' }, function(err, result) {
+            expect(err).to.be(null);
+
+            expect(result.err).to.be(null);
+            expect(result.status).to.be('alive');
+            done();
+        });
+    });
+
     it('should ignore file protocol on fragment links', function(done) {
         linkCheck('#foobar', { baseUrl: 'file://' }, function(err, result) {
             expect(err).to.be(null);
