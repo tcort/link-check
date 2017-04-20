@@ -1,5 +1,10 @@
 # link-check
 
+[![Build Status](https://travis-ci.org/tcort/link-check.svg?branch=master)](https://travis-ci.org/tcort/link-check)
+[![npm version](https://img.shields.io/npm/v/link-check.svg)](https://www.npmjs.com/package/link-check)
+[![npm downloads](https://img.shields.io/npm/dt/link-check.svg)](https://www.npmjs.com/package/link-check)
+[![License](https://img.shields.io/badge/license-ISC-blue.svg)](https://raw.githubusercontent.com/tcort/link-check/master/LICENSE.md)
+
 Checks whether a hyperlink is alive (`200 OK`) or dead.
 
 ## Installation
