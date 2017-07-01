@@ -195,4 +195,16 @@ describe('link-check', function () {
             done();
         });
     });
+
+    it('should handle bad domains', function (done) {
+        const badLink = 'https://githuuuub.com/tcort/link-check';
+        linkCheck(badLink, function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be(badLink);
+            expect(result.status).to.be('dead');
+            expect(result.statusCode).to.be(0);
+            expect(result.err.message).to.contain('getaddrinfo ENOTFOUND');
+            done();
+        });
+    });
 });
