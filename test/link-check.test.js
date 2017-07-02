@@ -85,7 +85,7 @@ describe('link-check', function () {
         });
     });
 
-    it('should report no DNS entry as a dead link', function (done) {
+    it('should report no DNS entry as a dead link (http)', function (done) {
         linkCheck('http://example.example.example.com/', function (err, result) {
             expect(err).to.be(null);
             expect(result.link).to.be('http://example.example.example.com/');
@@ -95,7 +95,19 @@ describe('link-check', function () {
             done();
         });
     });
-    
+
+    it('should report no DNS entry as a dead link (https)', function (done) {
+        const badLink = 'https://githuuuub.com/tcort/link-check';
+        linkCheck(badLink, function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be(badLink);
+            expect(result.status).to.be('dead');
+            expect(result.statusCode).to.be(0);
+            expect(result.err.message).to.contain('ENOTFOUND');
+            done();
+        });
+    });
+
     it('should try GET if HEAD fails', function (done) {
         linkCheck(baseUrl + '/nohead', function (err, result) {
             expect(err).to.be(null);
@@ -196,15 +208,4 @@ describe('link-check', function () {
         });
     });
 
-    it('should handle bad domains', function (done) {
-        const badLink = 'https://githuuuub.com/tcort/link-check';
-        linkCheck(badLink, function (err, result) {
-            expect(err).to.be(null);
-            expect(result.link).to.be(badLink);
-            expect(result.status).to.be('dead');
-            expect(result.statusCode).to.be(0);
-            expect(result.err.message).to.contain('getaddrinfo ENOTFOUND');
-            done();
-        });
-    });
 });
