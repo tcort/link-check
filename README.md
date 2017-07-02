@@ -27,6 +27,7 @@ Parameters:
 * `url` string containing a URL.
 * `opts` optional options object containing any of the following optional fields:
  * `baseUrl` the base URL for relative links.
+ * `timeout` timeout in [zeit/ms](https://www.npmjs.com/package/ms) format. (e.g. `"2000ms"`, `20s`, 1m`). Default `10s`.
 * `callback` function which accepts `(err, result)`.
  * `err` an Error object when the operation cannot be completed, otherwise `null`.
  * `result` an object with the following properties:

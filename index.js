@@ -16,11 +16,13 @@ module.exports = function linkCheck(link, opts, callback) {
         opts = {};
     }
 
+    opts.timeout = opts.timeout || '10s';
+
     const protocol = (url.parse(link, false, true).protocol || url.parse(opts.baseUrl, false, true).protocol || 'unknown:').replace(/:$/, '');
     if (!protocols.hasOwnProperty(protocol)) {
         callback(new Error('Unsupported Protocol'), null);
         return;
     }
 
-    protocols[protocol].check(link, opts.baseUrl, callback);
+    protocols[protocol].check(link, opts, callback);
 };

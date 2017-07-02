@@ -29,6 +29,10 @@ describe('link-check', function () {
         app.get('/loop', function (req, res) {
             res.redirect('/loop');
         });
+
+        app.get('/hang', function (req, res) {
+            // no reply
+        });
         
         var server = http.createServer(app);
         server.listen(0 /* random open port */, 'localhost', function serverListen(err) {
@@ -104,6 +108,17 @@ describe('link-check', function () {
             expect(result.status).to.be('dead');
             expect(result.statusCode).to.be(0);
             expect(result.err.message).to.contain('ENOTFOUND');
+            done();
+        });
+    });
+
+    it('should timeout if there is no response', function (done) {
+        linkCheck(baseUrl + '/hang', { timeout: '100ms' }, function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be(baseUrl + '/hang');
+            expect(result.status).to.be('dead');
+            expect(result.statusCode).to.be(0);
+            expect(result.err.message).to.contain('TIMEDOUT');
             done();
         });
     });
