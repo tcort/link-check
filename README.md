@@ -24,17 +24,17 @@ Given a `link` and a `callback`, attempt an HTTP HEAD and possibly an HTTP GET.
 
 Parameters:
 
-* `url` string containing a URL.
-* `opts` optional options object containing any of the following optional fields:
- * `baseUrl` the base URL for relative links.
- * `timeout` timeout in [zeit/ms](https://www.npmjs.com/package/ms) format. (e.g. `"2000ms"`, `20s`, 1m`). Default `10s`.
-* `callback` function which accepts `(err, result)`.
- * `err` an Error object when the operation cannot be completed, otherwise `null`.
- * `result` an object with the following properties:
-  * `link` the `link` provided as input
-  * `status` a string set to either `alive` or `dead`.
-  * `statusCode` the HTTP status code. Set to `0` if no HTTP status code was returned (e.g. when the server is down).
-  * `err` any connection error that occurred, otherwise `null`.
+ * `url` string containing a URL.
+ * `opts` optional options object containing any of the following optional fields:
+   * `baseUrl` the base URL for relative links.
+   * `timeout` timeout in [zeit/ms](https://www.npmjs.com/package/ms) format. (e.g. `"2000ms"`, `20s`, 1m`). Default `10s`.
+ * `callback` function which accepts `(err, result)`.
+   * `err` an Error object when the operation cannot be completed, otherwise `null`.
+   * `result` an object with the following properties:
+     * `link` the `link` provided as input
+     * `status` a string set to either `alive` or `dead`.
+     * `statusCode` the HTTP status code. Set to `0` if no HTTP status code was returned (e.g. when the server is down).
+     * `err` any connection error that occurred, otherwise `null`.
 
 ## Examples
 
