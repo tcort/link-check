@@ -28,6 +28,7 @@ Parameters:
  * `opts` optional options object containing any of the following optional fields:
    * `baseUrl` the base URL for relative links.
    * `timeout` timeout in [zeit/ms](https://www.npmjs.com/package/ms) format. (e.g. `"2000ms"`, `20s`, 1m`). Default `10s`.
+   * `aliveStatusCodes` an array of numeric HTTP Response codes which indicate that the link is alive. Entries in this array may also be regular expressions. Example: `[ 200, /^[45][0-9]{2}$/ ]`.  Default `[ 200 ]`.
  * `callback` function which accepts `(err, result)`.
    * `err` an Error object when the operation cannot be completed, otherwise `null`.
    * `result` an object with the following properties:

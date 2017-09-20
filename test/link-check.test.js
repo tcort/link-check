@@ -33,6 +33,10 @@ describe('link-check', function () {
         app.get('/hang', function (req, res) {
             // no reply
         });
+
+        app.get('/notfound', function (req, res) {
+            res.sendStatus(404);
+        });
         
         var server = http.createServer(app);
         server.listen(0 /* random open port */, 'localhost', function serverListen(err) {
@@ -219,6 +223,36 @@ describe('link-check', function () {
             expect(result.status).to.be('dead');
             expect(result.statusCode).to.be(0);
             expect(result.err.message).to.contain('Exceeded maxRedirects.');
+            done();
+        });
+    });
+
+    it('should honour response codes in opts.aliveStatusCodes[]', function (done) {
+        linkCheck(baseUrl + '/notfound', { aliveStatusCodes: [ 404, 200 ] },  function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be(baseUrl + '/notfound');
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(404);
+            done();
+        });
+    });
+
+    it('should honour regexps in opts.aliveStatusCodes[]', function (done) {
+        linkCheck(baseUrl + '/notfound', { aliveStatusCodes: [ 200, /^[45][0-9]{2}$/ ] },  function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be(baseUrl + '/notfound');
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(404);
+            done();
+        });
+    });
+
+    it('should honour opts.aliveStatusCodes[]', function (done) {
+        linkCheck(baseUrl + '/notfound', { aliveStatusCodes: [ 200 ] },  function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be(baseUrl + '/notfound');
+            expect(result.status).to.be('dead');
+            expect(result.statusCode).to.be(404);
             done();
         });
     });
