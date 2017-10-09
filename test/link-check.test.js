@@ -8,7 +8,7 @@ const linkCheck = require('../');
 describe('link-check', function () {
 
     var baseUrl;
-    
+
     before(function (done) {
         var app = express();
 
@@ -37,7 +37,7 @@ describe('link-check', function () {
         app.get('/notfound', function (req, res) {
             res.sendStatus(404);
         });
-        
+
         var server = http.createServer(app);
         server.listen(0 /* random open port */, 'localhost', function serverListen(err) {
             if (err) {
