@@ -168,7 +168,7 @@ describe('link-check', function () {
     });
 
     it('should handle file protocol', function(done) {
-        linkCheck('fixtures/file.md', { baseUrl: 'file://' + process.cwd() + '/test/' }, function(err, result) {
+        linkCheck('fixtures/file.md', { baseUrl: 'file://' + __dirname }, function(err, result) {
             expect(err).to.be(null);
 
             expect(result.err).to.be(null);
@@ -178,7 +178,7 @@ describe('link-check', function () {
     });
 
     it('should handle file protocol and invalid files', function(done) {
-        linkCheck('fixtures/missing.md', { baseUrl: 'file://' + process.cwd() + '/test/' }, function(err, result) {
+        linkCheck('fixtures/missing.md', { baseUrl: 'file://' + __dirname }, function(err, result) {
             expect(err).to.be(null);
 
             expect(result.err.code).to.be('ENOENT');
