@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "jshint index.js",
-    "test": "mocha -R spec"
+    "test": "mocha -R spec --exit"
   },
   "repository": {
     "type": "git",
