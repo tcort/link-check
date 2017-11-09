@@ -187,6 +187,16 @@ describe('link-check', function () {
         });
     });
 
+    it('should handle baseUrl containing spaces', function(done) {
+        linkCheck('A.md', { baseUrl: 'file://' + __dirname + '/fixtures/s p a c e'}, function(err, result) {
+            expect(err).to.be(null);
+
+            expect(result.err).to.be(null);
+            expect(result.status).to.be('alive');
+            done()
+        });
+    });
+
     it('should handle file protocol and invalid files', function(done) {
         linkCheck('fixtures/missing.md', { baseUrl: 'file://' + __dirname }, function(err, result) {
             expect(err).to.be(null);
