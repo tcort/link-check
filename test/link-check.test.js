@@ -60,6 +60,16 @@ describe('link-check', function () {
         });
     });
 
+    it('should find that a valid external link with basic authentication is alive', function (done) {
+        linkCheck('https://httpbin.org/basic-auth/foo/bar', { headers: { 'Authorization' : 'Basic Zm9vOmJhcg==' } }, function (err, result) {
+            expect(err).to.be(null);
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            expect(result.err).to.be(null);
+            done();
+        });
+    });
+
     it('should find that a valid relative link is alive', function (done) {
         linkCheck('/foo/bar', { baseUrl: baseUrl }, function (err, result) {
             expect(err).to.be(null);
