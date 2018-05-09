@@ -26,6 +26,15 @@ describe('link-check', function () {
             res.json({foo:'bar'});
         });
 
+        app.get('/basic-auth', function (req, res) {
+            if (req.headers["authorization"] === "Basic Zm9vOmJhcg==") {
+                res.sendStatus(200);
+            }
+            else {
+                res.sendStatus(401);
+            }
+        });
+
         app.get('/loop', function (req, res) {
             res.redirect('/loop');
         });
@@ -60,8 +69,8 @@ describe('link-check', function () {
         });
     });
 
-    it('should find that a valid external link with basic authentication is alive', function (done) {
-        linkCheck('https://httpbin.org/basic-auth/foo/bar', { headers: { 'Authorization' : 'Basic Zm9vOmJhcg==' } }, function (err, result) {
+    it('should find that a valid link with basic authentication is alive', function (done) {
+        linkCheck(baseUrl + '/basic-auth', { headers: { 'Authorization' : 'Basic Zm9vOmJhcg==' } }, function (err, result) {
             expect(err).to.be(null);
             expect(result.status).to.be('alive');
             expect(result.statusCode).to.be(200);
