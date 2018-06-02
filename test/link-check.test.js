@@ -179,6 +179,24 @@ describe('link-check', function () {
         });
     });
 
+    it('should handle valid mailto with encoded characters in address', function (done) {
+        linkCheck('mailto:foo%20bar@example.org', function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be('mailto:foo%20bar@example.org');
+            expect(result.status).to.be('alive');
+            done();
+        });
+    });
+
+    it('should handle valid mailto containing hfields', function (done) {
+        linkCheck('mailto:linuxgeek@gmail.com?subject=caf%C3%A9', function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be('mailto:linuxgeek@gmail.com?subject=caf%C3%A9');
+            expect(result.status).to.be('alive');
+            done();
+        });
+    });
+
     it('should handle invalid mailto', function (done) {
         linkCheck('mailto:foo@@bar@@baz', function (err, result) {
             expect(err).to.be(null);
