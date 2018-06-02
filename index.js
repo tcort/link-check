@@ -27,3 +27,5 @@ module.exports = function linkCheck(link, opts, callback) {
 
     protocols[protocol].check(link, opts, callback);
 };
+
+module.exports.LinkCheckResult = require('./lib/LinkCheckResult');
