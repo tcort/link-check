@@ -38,6 +38,19 @@ Parameters:
      * `statusCode` the HTTP status code. Set to `0` if no HTTP status code was returned (e.g. when the server is down).
      * `err` any connection error that occurred, otherwise `null`.
 
+### LinkCheckResult(link, statusCode, err)
+
+If you need the `LinkCheckResult` class to make your own results or to compare an object
+to it with `instanceof`, the class is exposed` via `require('link-check').LinkCheckResult`.
+
+Parameters:
+
+* `link` a string representing the link (e.g. `http://example.org`, `mailto:user@example.org`, etc)
+* `statusCode` a numeric code that corresponds to an HTTP status code or 0 if there is no code due to a problem.
+* `err` an Error object detailing the problem (if applicable).
+
+The resulting object has the above properties as well as `status` which is either `'dead'` or `'alive'`.
+
 ## Examples
 
 ```js
