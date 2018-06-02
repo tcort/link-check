@@ -7,10 +7,10 @@ const linkCheck = require('../');
 
 describe('link-check', function () {
 
-    var baseUrl;
+    let baseUrl;
 
     before(function (done) {
-        var app = express();
+        const app = express();
 
         app.head('/nohead', function (req, res) {
             res.sendStatus(405); // method not allowed
@@ -45,7 +45,7 @@ describe('link-check', function () {
             res.sendStatus(401);
         });
 
-        var server = http.createServer(app);
+        const server = http.createServer(app);
         server.listen(0 /* random open port */, 'localhost', function serverListen(err) {
             if (err) {
                 done(err);
