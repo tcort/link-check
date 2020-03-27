@@ -30,6 +30,7 @@ Parameters:
    * `timeout` timeout in [zeit/ms](https://www.npmjs.com/package/ms) format. (e.g. `"2000ms"`, `20s`, `1m`). Default `10s`.
    * `aliveStatusCodes` an array of numeric HTTP Response codes which indicate that the link is alive. Entries in this array may also be regular expressions. Example: `[ 200, /^[45][0-9]{2}$/ ]`.  Default `[ 200 ]`.
    * `headers` a string based attribute value object to send custom HTTP headers. Example: `{ 'Authorization' : 'Basic Zm9vOmJhcg==' }`.
+   * `retryOn429` a boolean indicating whether to retry on a 429 (Too Many Requests) response. When true, a retry will only be attempted when the response includes a `retry-after` header that indicates how long to wait before retrying.
  * `callback` function which accepts `(err, result)`.
    * `err` an Error object when the operation cannot be completed, otherwise `null`.
    * `result` an object with the following properties:
