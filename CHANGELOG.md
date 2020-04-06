@@ -1,5 +1,10 @@
 # Changes
 
+## Version 4.5.0
+
+* update dependencies
+* add an option to automatically retry on a 429 response (PR #19)
+
 ## Version 4.4.7
 
 * update dependencies.
