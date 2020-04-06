@@ -17,7 +17,7 @@ module.exports = function linkCheck(link, opts, callback) {
     }
 
     opts.timeout = opts.timeout || '10s';
-    
+    opts.retryOn429 = opts.retryOn429 || false;
 
     const protocol = (url.parse(link, false, true).protocol || url.parse(opts.baseUrl, false, true).protocol || 'unknown:').replace(/:$/, '');
     if (!protocols.hasOwnProperty(protocol)) {
