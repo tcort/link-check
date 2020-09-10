@@ -8,6 +8,7 @@ const linkCheck = require('../');
 describe('link-check', function () {
 
     let baseUrl;
+    let counter429;
 
     before(function (done) {
         const app = express();
@@ -38,7 +39,19 @@ describe('link-check', function () {
             res.sendStatus(404);
         });
 
+        app.get('/429', function (req, res) {
+            counter429++;
+
+            res.setHeader('retry-after', 100);
+            if(counter429 === parseInt(req.query.successNumber)) {
+                return res.sendStatus(200);
+            }
+
+            return res.sendStatus(429);
+        });
+
         app.get('/basic-auth', function (req, res) {
+
             if (req.headers["authorization"] === "Basic Zm9vOmJhcg==") {
                 return res.sendStatus(200);
             }
@@ -332,6 +345,30 @@ describe('link-check', function () {
             expect(result.link).to.be(baseUrl + '/notfound');
             expect(result.status).to.be('dead');
             expect(result.statusCode).to.be(404);
+            done();
+        });
+    });
+
+    it('should retry 429 status codes', function(done) {
+        counter429 = 0;
+        linkCheck(baseUrl + '/429?successNumber=2', { retryOn429: true }, function(err, result) {
+            expect(err).to.be(null);
+
+            expect(result.err).to.be(null);
+            expect(result.status).to.be('alive');
+
+            done();
+        });
+    });
+
+    it('should retry 10 times for 429 status codes', function(done) {
+        counter429 = 0;
+        linkCheck(baseUrl + '/429?successNumber=9', { retryOn429: true, retryCount: 10 }, function(err, result) {
+            expect(err).to.be(null);
+
+            expect(result.err).to.be(null);
+            expect(result.status).to.be('alive');
+
             done();
         });
     });
