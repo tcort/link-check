@@ -45,6 +45,42 @@ describe('link-check', function () {
             res.sendStatus(401);
         });
 
+        // prevent first header try to be a hit
+        app.head('/later-non-standard-header', function (req, res) {
+            res.sendStatus(405); // method not allowed
+        });
+        var nonStdRetried = false;
+        var nonStdFirstTry = 0;
+        app.get('/later-non-standard-header', function (req, res) {
+            var isRetryDelayExpired = nonStdFirstTry + 1000 < Date.now();
+            if(!nonStdRetried || !isRetryDelayExpired){
+              nonStdFirstTry = Date.now();
+              nonStdRetried = true;
+              res.append('retry-after', '1s');
+              res.sendStatus(429);
+            }else {
+              res.sendStatus(200);
+            }
+        });
+
+        // prevent first header try to be a hit
+        app.head('/later', function (req, res) {
+            res.sendStatus(405); // method not allowed
+        });
+        var stdRetried = false;
+        var stdFirstTry;
+        app.get('/later', function (req, res) {
+            var isRetryDelayExpired = stdFirstTry + 1000 < Date.now();
+            if(!stdRetried || !isRetryDelayExpired){
+              stdFirstTry = Date.now();
+              stdRetried = true;
+              res.append('retry-after', '1');
+              res.sendStatus(429);
+            }else{
+              res.sendStatus(200);
+            }
+        });
+
         const server = http.createServer(app);
         server.listen(0 /* random open port */, 'localhost', function serverListen(err) {
             if (err) {
@@ -332,6 +368,29 @@ describe('link-check', function () {
             expect(result.link).to.be(baseUrl + '/notfound');
             expect(result.status).to.be('dead');
             expect(result.statusCode).to.be(404);
+            done();
+        });
+    });
+
+    it('should retry after the provided delay on HTTP 429 with standard header', function (done) {
+        linkCheck(baseUrl + '/later', { retryOn429: true },  function (err, result) {
+            expect(err).to.be(null);
+            expect(result.err).to.be(null);
+            expect(result.link).to.be(baseUrl + '/later');
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            done();
+        });
+    });
+
+    it('should retry after the provided delay on HTTP 429 with non standard header, and return a warning', function (done) {
+        linkCheck(baseUrl + '/later-non-standard-header', { retryOn429: true },  function (err, result) {
+            expect(err).to.be(null);
+            expect(result.err).not.to.be(null)
+            expect(result.err).to.contain("Server returned a non standard \'retry-after\' header.");
+            expect(result.link).to.be(baseUrl + '/later-non-standard-header');
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
             done();
         });
     });
