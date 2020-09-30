@@ -7,7 +7,10 @@ const linkCheck = require('../');
 
 describe('link-check', function () {
 
+    this.timeout(2500);//increase timeout to enable 429 retry tests
+
     let baseUrl;
+    let laterCustomRetryCounter;
 
     before(function (done) {
         const app = express();
@@ -39,10 +42,44 @@ describe('link-check', function () {
         });
 
         app.get('/basic-auth', function (req, res) {
+
             if (req.headers["authorization"] === "Basic Zm9vOmJhcg==") {
                 return res.sendStatus(200);
             }
             res.sendStatus(401);
+        });
+
+        // prevent first header try to be a hit
+        app.head('/later-custom-retry-count', function (req, res) {
+            res.sendStatus(405); // method not allowed
+        });
+        app.get('/later-custom-retry-count', function (req, res) {
+            laterCustomRetryCounter++;
+
+            if(laterCustomRetryCounter === parseInt(req.query.successNumber)) {
+                res.sendStatus(200);
+            }else{
+              res.setHeader('retry-after', 1);
+              res.sendStatus(429);
+            }
+        });
+
+        // prevent first header try to be a hit
+        app.head('/later-standard-header', function (req, res) {
+            res.sendStatus(405); // method not allowed
+        });
+        var stdRetried = false;
+        var stdFirstTry;
+        app.get('/later', function (req, res) {
+            var isRetryDelayExpired = stdFirstTry + 1000 < Date.now();
+            if(!stdRetried || !isRetryDelayExpired){
+              stdFirstTry = Date.now();
+              stdRetried = true;
+              res.setHeader('retry-after', 1);
+              res.sendStatus(429);
+            }else{
+              res.sendStatus(200);
+            }
         });
 
         // prevent first header try to be a hit
@@ -56,27 +93,9 @@ describe('link-check', function () {
             if(!nonStdRetried || !isRetryDelayExpired){
               nonStdFirstTry = Date.now();
               nonStdRetried = true;
-              res.append('retry-after', '1s');
+              res.setHeader('retry-after', '1s');
               res.sendStatus(429);
             }else {
-              res.sendStatus(200);
-            }
-        });
-
-        // prevent first header try to be a hit
-        app.head('/later', function (req, res) {
-            res.sendStatus(405); // method not allowed
-        });
-        var stdRetried = false;
-        var stdFirstTry;
-        app.get('/later', function (req, res) {
-            var isRetryDelayExpired = stdFirstTry + 1000 < Date.now();
-            if(!stdRetried || !isRetryDelayExpired){
-              stdFirstTry = Date.now();
-              stdRetried = true;
-              res.append('retry-after', '1');
-              res.sendStatus(429);
-            }else{
               res.sendStatus(200);
             }
         });
@@ -389,6 +408,18 @@ describe('link-check', function () {
             expect(result.err).not.to.be(null)
             expect(result.err).to.contain("Server returned a non standard \'retry-after\' header.");
             expect(result.link).to.be(baseUrl + '/later-non-standard-header');
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            done();
+        });
+    });
+
+    // 2 is default retry so test with custom 3
+    it('should retry 3 times for 429 status codes', function(done) {
+        laterCustomRetryCounter = 0;
+        linkCheck(baseUrl + '/later-custom-retry-count?successNumber=3', { retryOn429: true, retryCount: 3 }, function(err, result) {
+            expect(err).to.be(null);
+            expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
             expect(result.statusCode).to.be(200);
             done();
