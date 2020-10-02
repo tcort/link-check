@@ -32,6 +32,7 @@ Parameters:
    * `headers` a string based attribute value object to send custom HTTP headers. Example: `{ 'Authorization' : 'Basic Zm9vOmJhcg==' }`.
    * `retryOn429` a boolean indicating whether to retry on a 429 (Too Many Requests) response. When true, a retry will only be attempted when the response includes a `retry-after` header that indicates how long to wait before retrying.
    * `retryCount` the number of retries to be made on a 429 response. Default `2`.
+   * `fallbackRetryDelay` the delay in [zeit/ms](https://www.npmjs.com/package/ms) format. (e.g. `"2000ms"`, `20s`, `1m`) for retries on a 429 response when no retry-after header is returned. Default is `60s`.
  * `callback` function which accepts `(err, result)`.
    * `err` an Error object when the operation cannot be completed, otherwise `null`.
    * `result` an object with the following properties:

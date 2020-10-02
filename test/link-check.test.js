@@ -69,13 +69,33 @@ describe('link-check', function () {
             res.sendStatus(405); // method not allowed
         });
         var stdRetried = false;
-        var stdFirstTry;
+        var stdFirstTry = 0;
         app.get('/later', function (req, res) {
             var isRetryDelayExpired = stdFirstTry + 1000 < Date.now();
             if(!stdRetried || !isRetryDelayExpired){
               stdFirstTry = Date.now();
               stdRetried = true;
               res.setHeader('retry-after', 1);
+              res.sendStatus(429);
+            }else{
+              res.sendStatus(200);
+            }
+        });
+
+        // prevent first header try to be a hit
+        app.head('/later-no-header', function (req, res) {
+            res.sendStatus(405); // method not allowed
+        });
+        var stdNoHeadRetried = false;
+        var stdNoHeadFirstTry = 0;
+        app.get('/later-no-header', function (req, res) {
+            var minTime = stdNoHeadFirstTry + 1000;
+            var maxTime = minTime + 100;
+            var now = Date.now();
+            var isRetryDelayExpired = minTime < now && now < maxTime;
+            if(!stdNoHeadRetried || !isRetryDelayExpired){
+              stdNoHeadFirstTry = Date.now();
+              stdNoHeadRetried = true;
               res.sendStatus(429);
             }else{
               res.sendStatus(200);
@@ -401,6 +421,18 @@ describe('link-check', function () {
             done();
         });
     });
+
+    it('should retry after 1s delay on HTTP 429 without header', function (done) {
+        linkCheck(baseUrl + '/later-no-header', { retryOn429: true, fallbackRetryDelay: '1s' },  function (err, result) {
+            expect(err).to.be(null);
+            expect(result.err).to.be(null);
+            expect(result.link).to.be(baseUrl + '/later-no-header');
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            done();
+        });
+    });
+
 
     it('should retry after the provided delay on HTTP 429 with non standard header, and return a warning', function (done) {
         linkCheck(baseUrl + '/later-non-standard-header', { retryOn429: true },  function (err, result) {
