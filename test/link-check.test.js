@@ -7,8 +7,10 @@ const linkCheck = require('../');
 
 describe('link-check', function () {
 
+    this.timeout(2500);//increase timeout to enable 429 retry tests
+
     let baseUrl;
-    let counter429;
+    let laterCustomRetryCounter;
 
     before(function (done) {
         const app = express();
@@ -39,23 +41,83 @@ describe('link-check', function () {
             res.sendStatus(404);
         });
 
-        app.get('/429', function (req, res) {
-            counter429++;
-
-            res.setHeader('retry-after', 100);
-            if(counter429 === parseInt(req.query.successNumber)) {
-                return res.sendStatus(200);
-            }
-
-            return res.sendStatus(429);
-        });
-
         app.get('/basic-auth', function (req, res) {
 
             if (req.headers["authorization"] === "Basic Zm9vOmJhcg==") {
                 return res.sendStatus(200);
             }
             res.sendStatus(401);
+        });
+
+        // prevent first header try to be a hit
+        app.head('/later-custom-retry-count', function (req, res) {
+            res.sendStatus(405); // method not allowed
+        });
+        app.get('/later-custom-retry-count', function (req, res) {
+            laterCustomRetryCounter++;
+
+            if(laterCustomRetryCounter === parseInt(req.query.successNumber)) {
+                res.sendStatus(200);
+            }else{
+              res.setHeader('retry-after', 1);
+              res.sendStatus(429);
+            }
+        });
+
+        // prevent first header try to be a hit
+        app.head('/later-standard-header', function (req, res) {
+            res.sendStatus(405); // method not allowed
+        });
+        var stdRetried = false;
+        var stdFirstTry = 0;
+        app.get('/later', function (req, res) {
+            var isRetryDelayExpired = stdFirstTry + 1000 < Date.now();
+            if(!stdRetried || !isRetryDelayExpired){
+              stdFirstTry = Date.now();
+              stdRetried = true;
+              res.setHeader('retry-after', 1);
+              res.sendStatus(429);
+            }else{
+              res.sendStatus(200);
+            }
+        });
+
+        // prevent first header try to be a hit
+        app.head('/later-no-header', function (req, res) {
+            res.sendStatus(405); // method not allowed
+        });
+        var stdNoHeadRetried = false;
+        var stdNoHeadFirstTry = 0;
+        app.get('/later-no-header', function (req, res) {
+            var minTime = stdNoHeadFirstTry + 1000;
+            var maxTime = minTime + 100;
+            var now = Date.now();
+            var isRetryDelayExpired = minTime < now && now < maxTime;
+            if(!stdNoHeadRetried || !isRetryDelayExpired){
+              stdNoHeadFirstTry = Date.now();
+              stdNoHeadRetried = true;
+              res.sendStatus(429);
+            }else{
+              res.sendStatus(200);
+            }
+        });
+
+        // prevent first header try to be a hit
+        app.head('/later-non-standard-header', function (req, res) {
+            res.sendStatus(405); // method not allowed
+        });
+        var nonStdRetried = false;
+        var nonStdFirstTry = 0;
+        app.get('/later-non-standard-header', function (req, res) {
+            var isRetryDelayExpired = nonStdFirstTry + 1000 < Date.now();
+            if(!nonStdRetried || !isRetryDelayExpired){
+              nonStdFirstTry = Date.now();
+              nonStdRetried = true;
+              res.setHeader('retry-after', '1s');
+              res.sendStatus(429);
+            }else {
+              res.sendStatus(200);
+            }
         });
 
         const server = http.createServer(app);
@@ -349,26 +411,48 @@ describe('link-check', function () {
         });
     });
 
-    it('should retry 429 status codes', function(done) {
-        counter429 = 0;
-        linkCheck(baseUrl + '/429?successNumber=2', { retryOn429: true }, function(err, result) {
+    it('should retry after the provided delay on HTTP 429 with standard header', function (done) {
+        linkCheck(baseUrl + '/later', { retryOn429: true },  function (err, result) {
             expect(err).to.be(null);
-
             expect(result.err).to.be(null);
+            expect(result.link).to.be(baseUrl + '/later');
             expect(result.status).to.be('alive');
-
+            expect(result.statusCode).to.be(200);
             done();
         });
     });
 
-    it('should retry 10 times for 429 status codes', function(done) {
-        counter429 = 0;
-        linkCheck(baseUrl + '/429?successNumber=9', { retryOn429: true, retryCount: 10 }, function(err, result) {
+    it('should retry after the provided delay on HTTP 429 with non standard header, and return a warning', function (done) {
+        linkCheck(baseUrl + '/later-non-standard-header', { retryOn429: true },  function (err, result) {
             expect(err).to.be(null);
+            expect(result.err).not.to.be(null)
+            expect(result.err).to.contain("Server returned a non standard \'retry-after\' header.");
+            expect(result.link).to.be(baseUrl + '/later-non-standard-header');
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            done();
+        });
+    });
 
+    it('should retry after 1s delay on HTTP 429 without header', function (done) {
+        linkCheck(baseUrl + '/later-no-header', { retryOn429: true, fallbackRetryDelay: '1s' },  function (err, result) {
+            expect(err).to.be(null);
+            expect(result.err).to.be(null);
+            expect(result.link).to.be(baseUrl + '/later-no-header');
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            done();
+        });
+    });
+
+    // 2 is default retry so test with custom 3
+    it('should retry 3 times for 429 status codes', function(done) {
+        laterCustomRetryCounter = 0;
+        linkCheck(baseUrl + '/later-custom-retry-count?successNumber=3', { retryOn429: true, retryCount: 3 }, function(err, result) {
+            expect(err).to.be(null);
             expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
-
+            expect(result.statusCode).to.be(200);
             done();
         });
     });
