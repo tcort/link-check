@@ -16,10 +16,6 @@ module.exports = function linkCheck(link, opts, callback) {
         opts = {};
     }
 
-    opts.timeout = opts.timeout || '10s';
-    opts.retryOn429 = opts.retryOn429 || false;
-    opts.retryCount = opts.retryCount || 2;
-
     const protocol = (url.parse(link, false, true).protocol || url.parse(opts.baseUrl, false, true).protocol || 'unknown:').replace(/:$/, '');
     if (!protocols.hasOwnProperty(protocol)) {
         callback(new Error('Unsupported Protocol'), null);

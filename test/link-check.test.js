@@ -422,24 +422,23 @@ describe('link-check', function () {
         });
     });
 
-    it('should retry after 1s delay on HTTP 429 without header', function (done) {
-        linkCheck(baseUrl + '/later-no-header', { retryOn429: true, fallbackRetryDelay: '1s' },  function (err, result) {
-            expect(err).to.be(null);
-            expect(result.err).to.be(null);
-            expect(result.link).to.be(baseUrl + '/later-no-header');
-            expect(result.status).to.be('alive');
-            expect(result.statusCode).to.be(200);
-            done();
-        });
-    });
-
-
     it('should retry after the provided delay on HTTP 429 with non standard header, and return a warning', function (done) {
         linkCheck(baseUrl + '/later-non-standard-header', { retryOn429: true },  function (err, result) {
             expect(err).to.be(null);
             expect(result.err).not.to.be(null)
             expect(result.err).to.contain("Server returned a non standard \'retry-after\' header.");
             expect(result.link).to.be(baseUrl + '/later-non-standard-header');
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            done();
+        });
+    });
+
+    it('should retry after 1s delay on HTTP 429 without header', function (done) {
+        linkCheck(baseUrl + '/later-no-header', { retryOn429: true, fallbackRetryDelay: '1s' },  function (err, result) {
+            expect(err).to.be(null);
+            expect(result.err).to.be(null);
+            expect(result.link).to.be(baseUrl + '/later-no-header');
             expect(result.status).to.be('alive');
             expect(result.statusCode).to.be(200);
             done();
