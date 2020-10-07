@@ -1,5 +1,10 @@
 # Changes
 
+## Version 4.5.2
+
+* #25 fixes 429 "Too Many Requests" retries that don't follow standard (@NicolasMassart)
+* #22 Add support for retry count on 429 response codes (@andreizet)
+
 ## Version 4.5.1
 
 * update dependencies
