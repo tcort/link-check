@@ -1,3 +1,5 @@
+![Test library workflow status](https://github.com/tcort/link-check/workflows/Test%20library/badge.svg)
+
 # link-check
 
 Checks whether a hyperlink is alive (`200 OK`) or dead.
