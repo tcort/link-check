@@ -120,6 +120,10 @@ describe('link-check', function () {
             }
         });
 
+        app.get(encodeURI('/url_with_unicode–'), function (req, res) {
+            res.sendStatus(200);
+        });
+
         const server = http.createServer(app);
         server.listen(0 /* random open port */, 'localhost', function serverListen(err) {
             if (err) {
@@ -449,6 +453,17 @@ describe('link-check', function () {
     it('should retry 3 times for 429 status codes', function(done) {
         laterCustomRetryCounter = 0;
         linkCheck(baseUrl + '/later-custom-retry-count?successNumber=3', { retryOn429: true, retryCount: 3 }, function(err, result) {
+            expect(err).to.be(null);
+            expect(result.err).to.be(null);
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            done();
+        });
+    });
+
+    it('should handle unicode chars in URLs', function(done) {
+        laterCustomRetryCounter = 0;
+        linkCheck(baseUrl + '/url_with_unicode–', function(err, result) {
             expect(err).to.be(null);
             expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
