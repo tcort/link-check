@@ -31,7 +31,7 @@
     "is-relative-url": "^3.0.0",
     "isemail": "^3.2.0",
     "ms": "^2.1.2",
-    "request": "^2.88.2"
+    "needle": "^2.5.2"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
