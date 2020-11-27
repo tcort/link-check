@@ -25,3 +25,14 @@ Check code syntax (lint) with:
 ```bash
 npm run lint
 ```
+
+Build library with:
+```bash
+npx tsc
+```
+Or tsc only if you have tsc installed globally
+```bash
+tsc
+```
+
+The library is built in `lib` folder.
