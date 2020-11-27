@@ -45,18 +45,38 @@ Parameters:
 
 ## Examples
 
+Javascript:
+
 ```js
 'use strict';
 
 const linkCheck = require('link-check');
 
-linkCheck('http://example.com', function (err, result) {
+linkCheck.linkCheck('http://example.com', function (err, result) {
     if (err) {
         console.error(err);
         return;
     }
     console.log(`${result.link} is ${result.status}`);
 });
+```
+
+Typescript: 
+
+```ts
+import { linkCheck, Options, LinkCheckResult } from 'link-check'
+
+const options: Options = {
+    timeout: '5s',
+}
+
+linkCheck('http://example.com', options, (err: any, result: LinkCheckResult) => {
+    if (err) {
+        console.error(err)
+        return
+    }
+    console.log(`${result.link} is ${result.status}`)
+})
 ```
 
 **With basic authentication:**
