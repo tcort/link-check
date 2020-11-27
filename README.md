@@ -97,7 +97,9 @@ linkCheck('http://example.com', { headers: { 'Authorization': 'Basic Zm9vOmJhcg=
 
 ## Testing
 
-    npm test
+```bash
+npm test
+```
 
 ## License
 

@@ -15,7 +15,8 @@ export interface Options {
 /* class decorator */
 export function staticImplements<T>() {
     return <U extends T>(constructor: U) => {
-        constructor
+        // tslint:disable-next-line:no-unused-expression
+        constructor 
     }
 }
 

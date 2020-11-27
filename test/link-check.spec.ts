@@ -42,6 +42,7 @@ describe('link-check', function() {
 
         app.get('/basic-auth', (req, res) => {
 
+            // tslint:disable-next-line:no-string-literal
             if (req.headers["authorization"] === "Basic Zm9vOmJhcg==") {
                 res.sendStatus(200);
             } else {
