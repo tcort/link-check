@@ -5,11 +5,12 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "pretest": "jshint; tsc;",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "lint-fix": "tslint -p tsconfig.json --fix",
-    "test": "mocha --exit"
+    "pretest": "jshint",
+    "test": "mocha --exit",
+    "build": "rm -rf ./lib && tsc"
   },
   "repository": {
     "type": "git",

@@ -79,6 +79,13 @@ linkCheck('http://example.com', options, (err: any, result: LinkCheckResult) => 
 })
 ```
 
+One-liner test from shell
+
+```bash
+node -e 'require("link-check").linkCheck("https://www.shellcheck.net", {debug: true, timeout: "5s"}, function (err, result) { console.log(result)})'
+```
+
+
 **With basic authentication:**
 
 ```js

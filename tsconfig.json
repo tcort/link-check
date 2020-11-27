@@ -13,9 +13,9 @@
       "noImplicitReturns": true,
       "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "test/**/*"
-  ],
+  // "include": [
+    // "test/**/*"
+  // ],
   "files": [
       "src/index.ts"
   ]

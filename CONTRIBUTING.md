@@ -11,10 +11,16 @@ Contributing
 
 ## Development
 
+### Tests
+
 Run test with:
 ```bash
 npm test
 ```
+
+### Format and lint
+
+Note: should be done before pushing or building a new version
 
 Format code with:
 ```bash
@@ -26,13 +32,21 @@ Check code syntax (lint) with:
 npm run lint
 ```
 
+### Build the library
+
 Build library with:
 ```bash
-npx tsc
+npm run buiild
 ```
-Or tsc only if you have tsc installed globally
-```bash
-tsc
-```
-
 The library is built in `lib` folder.
+
+### Execute it
+
+One-liner test from shell
+
+```bash
+# Compile
+npm run build
+# Execute
+node -e 'require("./lib").linkCheck("https://www.shellcheck.net", {debug: true, timeout: "5s"}, function (err, result) { console.log(result)})'
+```
