@@ -50,7 +50,7 @@ Javascript:
 ```js
 'use strict';
 
-const linkCheck = require('link-check');
+const linkChecker = require('link-check');
 
 linkCheck.linkCheck('http://example.com', function (err, result) {
     if (err) {
@@ -84,9 +84,9 @@ linkCheck('http://example.com', options, (err: any, result: LinkCheckResult) => 
 ```js
 'use strict';
 
-const linkCheck = require('link-check');
+const linkChecker = require('link-check');
 
-linkCheck('http://example.com', { headers: { 'Authorization': 'Basic Zm9vOmJhcg==' } }, function (err, result) {
+linkChecker.linkCheck('http://example.com', { headers: { 'Authorization': 'Basic Zm9vOmJhcg==' } }, function (err, result) {
     if (err) {
         console.error(err);
         return;
