@@ -1,11 +1,11 @@
 import * as isemail from 'isemail'
 
-import { Callback, LinkCheckOptions, Protocol, staticImplements } from '../types'
+import { Callback, Options, Protocol, staticImplements } from '../types'
 import { LinkCheckResult } from '../LinkCheckResult'
 
 @staticImplements<Protocol>()
 export class MailToProtocol {
-    public static check(link: string, opts: LinkCheckOptions, callback: Callback): void {
+    public static check(link: string, opts: Options, callback: Callback): void {
         const address = link
             .substr(7) // strip "mailto:"
             .split('?')[0] // trim ?subject=blah hfields

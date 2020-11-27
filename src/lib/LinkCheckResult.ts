@@ -1,44 +1,42 @@
-import { LinkCheckOptions } from './types'
+import { Options } from './types'
 
 
-export enum LinkCheckStatus {
+export enum Status {
     ALIVE = 'alive',
     DEAD = 'dead',
-    IGNORE = 'ignore',
 }
 
 export class LinkCheckResult {
     public readonly link: string
     public readonly statusCode: number
     public readonly status: string
-    public readonly err: any
-    /** Expose original error because 'err' property could be simplified to a string message */
-    public readonly originalError: any
+    public readonly err?: any
+    public readonly additionalMessages?: string[]
 
     /**
      * Generic constructor for inheritance
      */
-    constructor(link: string, statusCode: number, status: string, err?: any, originalError?: any) {
+    constructor(link: string, statusCode: number, status: string, err?: any, additionalMessages?: string[]) {
         this.link = link
         this.statusCode = statusCode
         this.status = status
-        this.err = err || null
-        this.originalError = originalError || err || null
+        this.err = err
+        this.additionalMessages = additionalMessages
 
     }
 
-    static fromStatus(opts: LinkCheckOptions, link: string, statusCode: number, err?: any, originalError?: any): LinkCheckResult {
+    static fromStatus(opts: Options, link: string, statusCode: number, err?: any, additionalMessages?: string[]): LinkCheckResult {
         return new LinkCheckResult(
             link, 
             statusCode || 0,
-            isAlive(opts, statusCode) ? LinkCheckStatus.ALIVE : LinkCheckStatus.DEAD,
+            isAlive(opts, statusCode) ? Status.ALIVE : Status.DEAD,
             err,
-            originalError,
+            additionalMessages
         )
     }
 }
 
-function isAlive(opts: LinkCheckOptions, statusCode: number): boolean {
+function isAlive(opts: Options, statusCode: number): boolean {
     const aliveStatusCodes = opts.aliveStatusCodes || [200]
 
     return aliveStatusCodes.some((aliveStatusCode) =>

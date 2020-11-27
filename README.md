@@ -40,11 +40,12 @@ Parameters:
    * `debugToStdErr` write debug message to standard error output
  * `callback` function which accepts `(err, result)`.
    * `err` an Error object when the operation cannot be completed, otherwise `null`.
-   * `result` an object with the following properties:
+   * `result` an object with the following properties or `undefined`:
      * `link` the `link` provided as input
      * `status` a string set to either `alive` or `dead`.
      * `statusCode` the HTTP status code. Set to `0` if no HTTP status code was returned (e.g. when the server is down).
-     * `err` any connection error that occurred, otherwise `null`.
+     * `err` any connection error that occurred, otherwise `undefined`.
+     * `additionalMessages` a list of additional messages that occured, otherwise `undefined`.
 
 ## Examples
 

@@ -377,7 +377,7 @@ describe('link-check', function() {
 
     it('should callback with an error on unsupported protocol', (done) => {
         linkCheck.linkCheck('gopher://gopher/0/v2/vstat', (err, result) => {
-            expect(result).to.be(null);
+            expect(result).to.be(undefined);
             expect(err).to.be.an(Error);
             done();
         });
@@ -438,8 +438,10 @@ describe('link-check', function() {
     it('should retry after the provided delay on HTTP 429 with non standard header, and return a warning', (done) => {
         linkCheck.linkCheck(baseUrl + '/later-non-standard-header', { retryOn429: true },  (err, result) => {
             expect(err).to.be(null);
-            expect(result!.err).not.to.be(null)
-            expect(result!.err).to.contain("Server returned a non standard \'retry-after\' header.");
+            expect(result!.err).to.be(null)
+            expect(result!.additionalMessages).not.to.be(null)
+            expect(result!.additionalMessages!.length).to.be(1);
+            expect(result!.additionalMessages![0]).to.contain("Server returned a non standard \'retry-after\' header.");
             expect(result!.link).to.be(baseUrl + '/later-non-standard-header');
             expect(result!.status).to.be('alive');
             expect(result!.statusCode).to.be(200);
