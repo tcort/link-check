@@ -3,11 +3,11 @@ import * as path from 'path'
 import * as process from 'process'
 import * as url from 'url'
 import { LinkCheckResult } from '../LinkCheckResult'
-import { Callback, Options, Protocol, staticImplements } from '../types'
+import { Callback, LinkCheckOptions, Protocol, staticImplements } from '../types'
 
 @staticImplements<Protocol>()
 export class FileProtocol {
-    public static check(link: string, opts: Options, callback: Callback): void {
+    public static check(link: string, opts: LinkCheckOptions, callback: Callback): void {
         let filepath: string = decodeURIComponent(url.parse(link, false, true).pathname || '')
 
         if (!path.isAbsolute(filepath)) {
@@ -22,7 +22,7 @@ export class FileProtocol {
 
         fs.access(filepath || '', fs.constants.R_OK, (err: NodeJS.ErrnoException | null) => {
             const statusCode = !err ? 200 : 400
-            callback(null, new LinkCheckResult(opts, link, statusCode, err))
+            callback(null, LinkCheckResult.fromStatus(opts, link, statusCode, err))
         })
     }
 }

@@ -3,13 +3,13 @@ import * as request from 'request'
 import isRelativeUrl = require('is-relative-url')
 import ms = require('ms')
 
-import { Callback, Options, Protocol, staticImplements } from '../types'
+import { Callback, LinkCheckOptions, Protocol, staticImplements } from '../types'
 import { LinkCheckResult } from '../LinkCheckResult'
 import { BlackHole } from '../BlackHole'
 
 @staticImplements<Protocol>()
 export class HttpProtocol {
-    public static check(link: string, opts: Options, callback: Callback): void {
+    public static check(link: string, opts: LinkCheckOptions, callback: Callback): void {
         // default request timeout set to 10s if not provided in options
         const timeout = opts.timeout || '10s'
 
@@ -45,12 +45,12 @@ export class HttpProtocol {
     }
 
     // prettier-ignore
-    private static doCheckWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number = 0, additionalMessage?: string): void {
+    private static doCheckWithRetry(link: string, opts: LinkCheckOptions, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number = 0, additionalMessage?: string): void {
         HttpProtocol.doHeadWithRetry(link, opts, callback, requestOptions, attempts, additionalMessage)
     }
 
     // prettier-ignore
-    public static doHeadWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string) {
+    public static doHeadWithRetry(link: string, opts: LinkCheckOptions, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string) {
         request.head(requestOptions, (err: any, res: request.Response, body: any): void => {
 
             if (opts.debug) {
@@ -66,7 +66,7 @@ export class HttpProtocol {
                     additionalMessage ?
                         (err == null) ? additionalMessage : `${err} ${additionalMessage}` :
                         err
-                callback(null, new LinkCheckResult(opts, link, res ? res.statusCode : 0, linkErr, err)); // alive, returned 200 OK
+                callback(null, LinkCheckResult.fromStatus(opts, link, res ? res.statusCode : 0, linkErr, err)); // alive, returned 200 OK
                 return;
             }
 
@@ -75,7 +75,7 @@ export class HttpProtocol {
     }
 
     // prettier-ignore
-    public static doGetWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string) {
+    public static doGetWithRetry(link: string, opts: LinkCheckOptions, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string) {
         // if HEAD fails (405 Method Not Allowed, etc), try GET
         request.get(requestOptions, (err: any, res: request.Response, _: any): void => {
             if (opts.debug) {
@@ -108,12 +108,12 @@ export class HttpProtocol {
                     additionalMessage ?
                         (err == null) ? additionalMessage : `${err} ${additionalMessage}` :
                         err
-                callback(null, new LinkCheckResult(opts, link, res ? res.statusCode : 0, linkErr, err));
+                callback(null, LinkCheckResult.fromStatus(opts, link, res ? res.statusCode : 0, linkErr, err));
             }
         }).pipe(new BlackHole());
     }
 
-    private static shouldRetry(err: any, res: request.Response, opts: Options, attempts: number): boolean {
+    private static shouldRetry(err: any, res: request.Response, opts: LinkCheckOptions, attempts: number): boolean {
         // max retry count will default to 2 seconds if not provided in options
         const retryCount = opts.retryCount || 2
         return (

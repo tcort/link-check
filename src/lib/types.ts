@@ -2,7 +2,7 @@ import { LinkCheckResult } from './LinkCheckResult'
 
 export type Callback = (err: any, result: LinkCheckResult | null) => void
 
-export interface Options {
+export interface LinkCheckOptions {
     baseUrl?: string
     aliveStatusCodes?: (number | RegExp)[]
     timeout?: string
@@ -24,10 +24,5 @@ export function staticImplements<T>() {
 }
 
 export interface Protocol {
-    check: (link: string, opts: Options, callback: Callback) => void
-}
-
-export enum Status {
-    ALIVE = 'alive',
-    DEAD = 'dead',
+    check: (link: string, opts: LinkCheckOptions, callback: Callback) => void
 }

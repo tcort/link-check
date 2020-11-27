@@ -1,11 +1,11 @@
 import * as url from 'url'
-import { Callback, Options, Protocol } from './lib/types'
+import { Callback, LinkCheckOptions, Protocol } from './lib/types'
 import { FileProtocol } from './lib/proto/file'
 import { HttpProtocol } from './lib/proto/http'
 import { MailToProtocol } from './lib/proto/mailto'
 
-export { Status, Options, Callback } from './lib/types'
-export { LinkCheckResult } from './lib/LinkCheckResult'
+export { LinkCheckOptions, Callback } from './lib/types'
+export { LinkCheckResult, LinkCheckStatus } from './lib/LinkCheckResult'
 
 const protocols: { [key: string]: Protocol } = {
     file: FileProtocol,
@@ -14,8 +14,8 @@ const protocols: { [key: string]: Protocol } = {
     mailto: MailToProtocol,
 }
 
-export function linkCheck(link: string, optionArg: Options | Callback, callbackArg?: Callback): void {
-    let options: Options
+export function linkCheck(link: string, optionArg: LinkCheckOptions | Callback, callbackArg?: Callback): void {
+    let options: LinkCheckOptions
     let callback: Callback
 
     if (arguments.length === 2 && typeof optionArg === 'function') {
@@ -24,7 +24,7 @@ export function linkCheck(link: string, optionArg: Options | Callback, callbackA
         options = {}
     } else {
         callback = callbackArg!
-        options = optionArg as Options
+        options = optionArg as LinkCheckOptions
     }
 
     const protocol = (
