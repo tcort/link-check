@@ -4,7 +4,7 @@ import { FileProtocol } from './lib/proto/file'
 import { HttpProtocol } from './lib/proto/http'
 import { MailToProtocol } from './lib/proto/mailto'
 
-export { Options as LinkCheckOptions, Callback } from './lib/types'
+export { Options, Callback } from './lib/types'
 export { LinkCheckResult, Status } from './lib/LinkCheckResult'
 
 const protocols: { [key: string]: Protocol } = {
