@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
       "strict": true,
-      "outDir": "lib",
+      "outDir": "dist",
       "target": "es2016",
       "module": "commonjs",
       "moduleResolution": "node",
@@ -13,9 +13,6 @@
       "noImplicitReturns": true,
       "forceConsistentCasingInFileNames": true
   },
-  // "include": [
-    // "test/**/*"
-  // ],
   "files": [
       "src/index.ts"
   ]

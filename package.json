@@ -2,15 +2,16 @@
   "name": "link-check",
   "version": "4.5.2",
   "description": "checks whether a hyperlink is alive (200 OK) or dead",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "lint-fix": "tslint -p tsconfig.json --fix",
-    "pretest": "jshint",
+    "pretest": "npm run lint",
     "test": "mocha --exit",
-    "build": "rm -rf ./lib && tsc"
+    "build": "npm run lint && rm -rf ./dist && tsc",
+    "postinstall": "tsc"
   },
   "repository": {
     "type": "git",

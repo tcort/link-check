@@ -1,6 +1,5 @@
 import { Options } from './types'
 
-
 export enum Status {
     ALIVE = 'alive',
     DEAD = 'dead',
@@ -22,16 +21,21 @@ export class LinkCheckResult {
         this.status = status
         this.err = err
         this.additionalMessages = additionalMessages
-
     }
 
-    static fromStatus(opts: Options, link: string, statusCode: number, err?: any, additionalMessages?: string[]): LinkCheckResult {
+    static fromStatus(
+        opts: Options,
+        link: string,
+        statusCode: number,
+        err?: any,
+        additionalMessages?: string[],
+    ): LinkCheckResult {
         return new LinkCheckResult(
-            link, 
+            link,
             statusCode || 0,
             isAlive(opts, statusCode) ? Status.ALIVE : Status.DEAD,
             err,
-            additionalMessages
+            additionalMessages,
         )
     }
 }
