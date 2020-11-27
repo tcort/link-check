@@ -15,6 +15,6 @@ export class MailToProtocol {
          */
 
         const statusCode = isemail.validate(address) ? 200 : 400
-        callback(null, new LinkCheckResult(opts, link, statusCode, null))
+        callback(null, new LinkCheckResult(opts, link, statusCode))
     }
 }

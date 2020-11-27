@@ -64,6 +64,15 @@ describe('link-check', function() {
               res.sendStatus(429);
             }
         });
+        app.get('/error-retry-count', (req, res) => {
+            laterCustomRetryCounter++;
+
+            if(laterCustomRetryCounter === parseInt(req.query.successNumber!.toString(), 10)) {
+                res.sendStatus(200);
+            }else{
+                // no reply (timeout)
+            }
+        });
 
         // prevent first header try to be a hit
         app.head('/later-standard-header', (req, res) => {
@@ -457,12 +466,24 @@ describe('link-check', function() {
             expect(result!.err).to.be(null);
             expect(result!.status).to.be('alive');
             expect(result!.statusCode).to.be(200);
+            expect(laterCustomRetryCounter).to.be(3);
+            done();
+        });
+    });
+
+    it('should retry after the default delay on error', (done) => {
+        laterCustomRetryCounter = 0;
+        linkCheck.linkCheck(baseUrl + '/error-retry-count?successNumber=4', { retryOnError: true, timeout: '500ms', fallbackRetryDelay: '0s' },  (err, result) => {
+            expect(err).to.be(null);
+            expect(result!.err).to.be(null);
+            expect(result!.status).to.be('alive');
+            expect(result!.statusCode).to.be(200);
+            expect(laterCustomRetryCounter).to.be(4);
             done();
         });
     });
 
     it('should handle unicode chars in URLs', (done) => {
-        laterCustomRetryCounter = 0;
         linkCheck.linkCheck(baseUrl + '/url_with_unicode–', (err, result) => {
             expect(err).to.be(null);
             expect(result!.err).to.be(null);

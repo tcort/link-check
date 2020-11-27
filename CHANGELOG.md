@@ -3,6 +3,7 @@
 ## Unreleased
 
 * BREAKING CHANGE: API change. We don't use `module export` anymore to export main function, so code `require('link-check')('http://example.com', ...)` should be rewritten using the named function like this `require('link-check').linkCheck('http://example.com', ...)`
+* Add `debug`, `debugToStdErr` and `retryOnError` options
 * Migrate to typescript
 
 ## Version 4.5.2

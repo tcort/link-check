@@ -7,16 +7,19 @@ export interface Options {
     aliveStatusCodes?: (number | RegExp)[]
     timeout?: string
     retryOn429?: boolean
+    retryOnError?: boolean
     retryCount?: number
     fallbackRetryDelay?: string
     headers?: { [key: string]: any }
+    debug?: boolean
+    debugToStdErr?: boolean
 }
 
 /* class decorator */
 export function staticImplements<T>() {
     return <U extends T>(constructor: U) => {
         // tslint:disable-next-line:no-unused-expression
-        constructor 
+        constructor
     }
 }
 

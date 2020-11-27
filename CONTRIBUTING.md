@@ -48,5 +48,11 @@ One-liner test from shell
 # Compile
 npm run build
 # Execute
-node -e 'require("./lib").linkCheck("https://www.shellcheck.net", {debug: true, timeout: "5s"}, function (err, result) { console.log(result)})'
+node -e 'require("./lib").linkCheck("https://httpbin.org/status/200", {timeout: "5s"}, function (err, result) { console.log(result)})'
+# Execute with debug
+node -e 'require("./lib").linkCheck("https://httpbin.org/delay/5", {debug: true, debugToStdErr: true, timeout: "1s"}, function (err, result) { console.log(result)})'
+# Test retry on 429
+node -e 'require("./lib").linkCheck("https://httpbin.org/status/429", {debug: true, debugToStdErr: true, timeout: "1s", retryOn429: true, fallbackRetryDelay: "2s"}, function (err, result) { console.log(result)})'
+# Test retry on error
+node -e 'require("./lib").linkCheck("https://dont.exist", {debug: true, debugToStdErr: true, timeout: "1s", retryOnError: true, fallbackRetryDelay: "2s"}, function (err, result) { console.log(result)})'
 ```
