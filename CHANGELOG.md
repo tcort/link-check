@@ -1,5 +1,9 @@
 # Changes
 
+## Unreleased
+
+* Migrate to typescript
+
 ## Version 4.5.2
 
 * #25 fixes 429 "Too Many Requests" retries that don't follow standard (@NicolasMassart)

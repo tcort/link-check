@@ -1,10 +1,10 @@
-import * as url from "url"
-import { Callback, Options, Protocol } from "./lib/types"
-import { FileProtocol } from "./lib/proto/file"
-import { HttpProtocol } from "./lib/proto/http"
-import { MailToProtocol } from "./lib/proto/mailto"
+import * as url from 'url'
+import { Callback, Options, Protocol } from './lib/types'
+import { FileProtocol } from './lib/proto/file'
+import { HttpProtocol } from './lib/proto/http'
+import { MailToProtocol } from './lib/proto/mailto'
 
-export { Status, Options, Callback } from "./lib/types"
+export { Status, Options, Callback } from './lib/types'
 export { LinkCheckResult } from './lib/LinkCheckResult'
 
 const protocols: { [key: string]: Protocol } = {
@@ -27,7 +27,11 @@ export function linkCheck(link: string, optionArg: Options | Callback, callbackA
         options = optionArg as Options
     }
 
-    const protocol = (url.parse(link, false, true).protocol || url.parse(options.baseUrl!, false, true).protocol || 'unknown:').replace(/:$/, '')
+    const protocol = (
+        url.parse(link, false, true).protocol ||
+        url.parse(options.baseUrl!, false, true).protocol ||
+        'unknown:'
+    ).replace(/:$/, '')
     if (!protocols.hasOwnProperty(protocol)) {
         callback(new Error('Unsupported Protocol'), null)
         return
