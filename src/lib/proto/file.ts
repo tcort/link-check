@@ -21,7 +21,7 @@ export class FileProtocol {
         try {
             filepath = decodeURIComponent(url.parse(link, false, true).pathname || '')
         } catch (err) {
-            callback(err)
+            callback(`Error: unexpected error during decoding of link '${link} Error: ${err}`)
             return
         }
         if (!path.isAbsolute(filepath)) {
