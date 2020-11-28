@@ -10,6 +10,13 @@ import { Callback, Options, Protocol, staticImplements } from '../types'
 @staticImplements<Protocol>()
 export class FileProtocol {
     public static check(link: string, opts: Options, callback: Callback): void {
+        if (opts.debug) {
+            debug(
+                opts.debugToStdErr,
+                0,
+                "[fILE] Check link: '" + link + "'. Options: " + JSON.stringify(opts),
+            )
+        }
         let filepath: string
         try {
             filepath = decodeURIComponent(url.parse(link, false, true).pathname || '')
@@ -31,7 +38,7 @@ export class FileProtocol {
             debug(
                 opts.debugToStdErr,
                 0,
-                "[fILE] Check file: '" + filepath + "'. Options: " + JSON.stringify(opts),
+                "[fILE] Check file: '" + filepath + "'",
             )
         }
 
