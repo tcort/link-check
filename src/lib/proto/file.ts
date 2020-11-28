@@ -2,14 +2,21 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as process from 'process'
 import * as url from 'url'
+
+import { debug } from '../debug'
 import { LinkCheckResult } from '../LinkCheckResult'
 import { Callback, Options, Protocol, staticImplements } from '../types'
 
 @staticImplements<Protocol>()
 export class FileProtocol {
     public static check(link: string, opts: Options, callback: Callback): void {
-        let filepath: string = decodeURIComponent(url.parse(link, false, true).pathname || '')
-
+        let filepath: string
+        try {
+            filepath = decodeURIComponent(url.parse(link, false, true).pathname || '')
+        } catch (err) {
+            callback(err)
+            return
+        }
         if (!path.isAbsolute(filepath)) {
             if (opts.baseUrl) {
                 const encodedURI: string = url.parse(opts.baseUrl, false, true).path || ''
@@ -18,6 +25,14 @@ export class FileProtocol {
             } else {
                 throw new Error(`Error: link "${link}" is relative but no "baseUrl" is declared in options`)
             }
+        }
+
+        if (opts.debug) {
+            debug(
+                opts.debugToStdErr,
+                0,
+                "[fILE] Check file: '" + filepath + "'. Options: " + JSON.stringify(opts),
+            )
         }
 
         fs.access(filepath || '', fs.constants.R_OK, (err: Error | null) => {

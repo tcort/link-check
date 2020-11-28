@@ -1,8 +1,8 @@
-import * as http from 'http'
 import * as request from 'request'
 import isRelativeUrl = require('is-relative-url')
 import ms = require('ms')
 
+import { debug } from '../debug'
 import { Callback, Options, Protocol, staticImplements } from '../types'
 import { LinkCheckResult } from '../LinkCheckResult'
 import { BlackHole } from '../BlackHole'
@@ -172,15 +172,3 @@ export class HttpProtocol {
         }
     }
 }
-
-// tslint:disable:no-console
-function debug(debugToStdErr: boolean | undefined, attempts: number, message: string): void {
-    const log = debugToStdErr ? console.error : console.log
-    const date = new Date().toISOString()
-    if (attempts) {
-        log(date, '(Retry n˚' + attempts + ')', message)
-    } else {
-        log(date, message)
-    }
-}
-// tslint:enable:no-console
