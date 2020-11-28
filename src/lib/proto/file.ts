@@ -11,11 +11,7 @@ import { Callback, Options, Protocol, staticImplements } from '../types'
 export class FileProtocol {
     public static check(link: string, opts: Options, callback: Callback): void {
         if (opts.debug) {
-            debug(
-                opts.debugToStdErr,
-                0,
-                "[fILE] Check link: '" + link + "'. Options: " + JSON.stringify(opts),
-            )
+            debug(opts.debugToStdErr, 0, "[fILE] Check link: '" + link + "'. Options: " + JSON.stringify(opts))
         }
         let filepath: string
         try {
@@ -35,11 +31,7 @@ export class FileProtocol {
         }
 
         if (opts.debug) {
-            debug(
-                opts.debugToStdErr,
-                0,
-                "[fILE] Check file: '" + filepath + "'",
-            )
+            debug(opts.debugToStdErr, 0, "[fILE] Check file: '" + filepath + "'")
         }
 
         fs.access(filepath || '', fs.constants.R_OK, (err: Error | null) => {

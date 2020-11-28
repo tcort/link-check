@@ -5,13 +5,13 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "prettier --write \"{src,test}/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "lint-fix": "tslint -p tsconfig.json --fix",
     "pretest": "npm run lint",
     "test": "mocha --exit",
-    "build": "npm run lint && rm -rf ./dist && tsc",
-    "postinstall": "tsc"
+    "build": "npm run lint && rm -rf ./dist && tsc -p tsconfig-build.json",
+    "postinstall": "tsc -p tsconfig-build.json"
   },
   "repository": {
     "type": "git",
