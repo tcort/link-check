@@ -43,7 +43,7 @@ export class FileProtocol {
         }
 
         fs.access(filepath || '', fs.constants.R_OK, (err: Error | null) => {
-            const statusCode = !err ? 200 : 400
+            const statusCode = !err ? 200 : 404
             callback(null, LinkCheckResult.fromStatus(opts, link, statusCode, err))
         })
     }
