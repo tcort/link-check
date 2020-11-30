@@ -1,23 +1,27 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Node 10",
+
   "compilerOptions": {
-    "strict": true,
+    
     "outDir": "dist",
-    "target": "es2016",
+    "lib": ["es2018"],
     "module": "commonjs",
-    "moduleResolution": "node",
+    "target": "es2018",
     "declaration": true,
+    "declarationMap": true,
     "sourceMap": true,
+
+    "strict": true,
+
     "experimentalDecorators": true,
-    "pretty": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "forceConsistentCasingInFileNames": true
+
+    "allowUnreachableCode": false,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*",
     "test/**/*"
-  ],
-  "files": [
-    "src/index.ts"
   ]
 }
