@@ -5,7 +5,7 @@ export class BlackHole extends Writable {
         super(options)
     }
 
-    _write(_chunk: any, _encoding: BufferEncoding, callback: (error?: Error | null) => void): void {
+    _write(_chunk: unknown, _encoding: BufferEncoding, callback: (error?: Error | null) => void): void {
         callback() // eat the input
     }
 }

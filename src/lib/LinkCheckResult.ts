@@ -5,6 +5,7 @@ export enum Status {
     DEAD = 'dead',
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export class LinkCheckResult {
     public readonly link: string
     public readonly statusCode: number
@@ -15,7 +16,7 @@ export class LinkCheckResult {
     /**
      * Generic constructor for inheritance
      */
-    constructor(link: string, statusCode: number, status: string, err?: any, additionalMessages?: string[]) {
+    constructor(link: string, statusCode: number, status: string, err?: unknown, additionalMessages?: string[]) {
         this.link = link
         this.statusCode = statusCode
         this.status = status
@@ -27,7 +28,7 @@ export class LinkCheckResult {
         opts: Options,
         link: string,
         statusCode: number,
-        err?: any,
+        err?: unknown,
         additionalMessages?: string[],
     ): LinkCheckResult {
         return new LinkCheckResult(
@@ -39,6 +40,7 @@ export class LinkCheckResult {
         )
     }
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 function isAlive(opts: Options, statusCode: number): boolean {
     const aliveStatusCodes = opts.aliveStatusCodes || [200]

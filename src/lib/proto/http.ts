@@ -41,17 +41,17 @@ export class HttpProtocol {
             )
         }
 
-        HttpProtocol.doCheckWithRetry(link, opts, callback, requestOptions)
+        HttpProtocol.doCheckWithRetry(link, opts, callback, requestOptions, 0)
     }
 
     // prettier-ignore
-    private static doCheckWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number = 0, additionalMessage?: string): void {
+    private static doCheckWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string): void {
         HttpProtocol.doHeadWithRetry(link, opts, callback, requestOptions, attempts, additionalMessage)
     }
 
     // prettier-ignore
-    public static doHeadWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string) {
-        request.head(requestOptions, (err: any, res: request.Response, body: any): void => {
+    public static doHeadWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string): void {
+        request.head(requestOptions, (err: unknown, res: request.Response): void => {
 
             if (opts.debug) {
                 if (err) {
@@ -72,9 +72,9 @@ export class HttpProtocol {
     }
 
     // prettier-ignore
-    public static doGetWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string) {
+    public static doGetWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string): void {
         // if HEAD fails (405 Method Not Allowed, etc), try GET
-        request.get(requestOptions, (err: any, res: request.Response, _: any): void => {
+        request.get(requestOptions, (err: unknown, res: request.Response): void => {
             if (opts.debug) {
                 if (err) {
                     debug(opts.debugToStdErr, attempts, "[HTTP] GET  request error - Status code: '" + (res ? res.statusCode : "-") + "' Error: " + err)
@@ -107,14 +107,14 @@ export class HttpProtocol {
         }).pipe(new BlackHole());
     }
 
-    private static shouldRetry(err: any, res: request.Response, opts: Options, attempts: number): boolean {
+    private static shouldRetry(err: unknown, res: request.Response, opts: Options, attempts: number): boolean {
         // max retry count will default to 2 seconds if not provided in options
         const retryCount = opts.retryCount || 2
         return (
             // retry on error http code flag is false by default if not provided in options
-            (opts.retryOnError === true && err && attempts < retryCount) ||
+            (opts.retryOnError === true && err !== undefined && err !== null && attempts < retryCount) ||
             // retry on 429 http code flag is false by default if not provided in options
-            (opts.retryOn429 === true && res && res.statusCode === 429 && attempts < retryCount)
+            (opts.retryOn429 === true && res !== undefined && res.statusCode === 429 && attempts < retryCount)
         )
     }
 
@@ -122,7 +122,7 @@ export class HttpProtocol {
         if (!res) {
             return
         }
-        const retryAfterStr = res.headers['retry-after']!
+        const retryAfterStr = res.headers['retry-after']
         if (!retryAfterStr) {
             return
         }

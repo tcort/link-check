@@ -1,6 +1,6 @@
 import { LinkCheckResult } from './LinkCheckResult'
 
-export type Callback = (err: any | null, result?: LinkCheckResult) => void
+export type Callback = (err: unknown | null, result?: LinkCheckResult) => void
 
 export interface Options {
     baseUrl?: string
@@ -10,13 +10,13 @@ export interface Options {
     retryOnError?: boolean
     retryCount?: number
     fallbackRetryDelay?: string
-    headers?: { [key: string]: any }
+    headers?: { [key: string]: string }
     debug?: boolean
     debugToStdErr?: boolean
 }
 
 /* class decorator */
-export function staticImplements<T>() {
+export function staticImplements<T>(): <U extends T>(constructor: U) => void {
     return <U extends T>(constructor: U) => {
         // tslint:disable-next-line:no-unused-expression
         constructor

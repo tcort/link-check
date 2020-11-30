@@ -4,6 +4,8 @@ import expect = require('expect.js')
 
 import { linkCheck } from '../src'
 
+/* eslint-disable @typescript-eslint/no-non-null-assertion*/
+
 describe('link-check', function () {
     this.timeout(2500) // increase timeout to enable 429 retry tests
 
@@ -32,7 +34,7 @@ describe('link-check', function () {
             res.redirect('/loop')
         })
 
-        app.get('/hang', (req, res) => {
+        app.get('/hang', () => {
             // no reply
         })
 
@@ -138,7 +140,8 @@ describe('link-check', function () {
             const address =
                 typeof server.address() === 'string'
                     ? server.address()
-                    : (server.address() as any).address + ':' + (server.address() as any).port
+                    : /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+                      (server.address() as any).address + ':' + (server.address() as any).port
             baseUrl = 'http://' + address
             done()
         })
