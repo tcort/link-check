@@ -40,6 +40,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Prepare changelog
+        run: cat CHANGELOG.md | sed -n '/3.8.2/,/## /p' | sed -e '$ d' > CHANGELOG-current-version.md
+
       - name: Create Github Release
         id: create_release
         uses: actions/create-release@v1
@@ -48,6 +51,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body_path: CHANGELOG.md
+          body_path: CHANGELOG-current-version.md
           draft: false
           prerelease: false
