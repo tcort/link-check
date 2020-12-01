@@ -1,4 +1,4 @@
-name: Publish
+name: Publish Tag
 
 on:
   push:
@@ -39,11 +39,14 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Extract changelog
-        run: echo "CHANGELOG=$(cat CHANGELOG.md | sed -n '/3.8.2/,/## /p' | sed -e '$ d')" >> $GITHUB_ENV
-
-      - name: Debug changelog
-        run: echo "$CHANGELOG"
+      # - name: Extract changelog
+      #   run: | 
+      #     cat $GITHUB_ENV
+      #     CHANGELOG="$(cat CHANGELOG.md | sed -n "/${{ github.event.release.tag_name }}/,/## /p" | sed -e '$ d')"
+      #     echo "CHANGELOG=$CHANGELOG" >> $GITHUB_ENV
+      #     echo "$CHANGELOG"
+      #     echo "${CHANGELOG}"
+      #     cat $GITHUB_ENV
 
       - name: Create Github Release
         id: create_release
@@ -53,6 +56,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: ${ CHANGELOG }
-          draft: false
+          # body: ${ CHANGELOG }
+          draft: true
           prerelease: false
