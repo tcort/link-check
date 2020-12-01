@@ -6,7 +6,7 @@ on:
       - v*.*.* # Push events to v1.0.0, ...
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
