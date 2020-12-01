@@ -53,6 +53,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: ${{ CHANGELOG }}
+          body: ${ CHANGELOG }
           draft: false
           prerelease: false
