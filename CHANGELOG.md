@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [4.7.1][] - 2020-12-01
+
 ### Changes
 
 - Migration to typescript
@@ -37,7 +39,8 @@
 - add CHANGELOG.md (Issue #17)
 
 
-[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v4.7.0...HEAD
+[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v4.7.1...HEAD
+[4.7.1]: https://github.com/boillodmanuel/link-check/compare/v4.7.0...v4.7.1
 [4.7.0]: https://github.com/boillodmanuel/link-check/compare/v4.6.0...v4.7.0
 [4.6.0]: https://github.com/boillodmanuel/link-check/compare/v4.5.4...v4.6.0
 [4.5.4]: https://github.com/boillodmanuel/link-check/compare/v4.5.3...v4.5.4
