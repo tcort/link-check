@@ -37,7 +37,7 @@ function doLnkCheck(link: string, options: Options, callback: Callback): void {
         (options.baseUrl && url.parse(options.baseUrl, false, true).protocol) ||
         'unknown:'
     ).replace(/:$/, '')
-    if (!Object.prototype.hasOwnProperty.call(protocols, 'protocol')) {
+    if (!Object.prototype.hasOwnProperty.call(protocols, protocol)) {
         callback(new Error('Unsupported Protocol'), undefined)
         return
     }
