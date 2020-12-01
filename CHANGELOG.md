@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [5.0.2][] - 2020-12-01
+
 ### Added
 
 - Release on new tag with github action
@@ -43,7 +45,8 @@
 - add CHANGELOG.md (Issue #17)
 
 
-[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v5.0.1...HEAD
+[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v5.0.2...HEAD
+[5.0.2]: https://github.com/boillodmanuel/link-check/compare/v5.0.1...v5.0.2
 [5.0.1]: https://github.com/boillodmanuel/link-check/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/boillodmanuel/link-check/compare/v5.0.0...v5.0.0
 [5.0.0]: https://github.com/boillodmanuel/link-check/compare/v4.8.5...v5.0.0

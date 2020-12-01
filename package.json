@@ -1,6 +1,6 @@
 {
   "name": "@boillodmanuel/link-check",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "checks whether a hyperlink is alive (200 OK) or dead",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
