@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [4.5.4][] - 2020-12-01
+
 ### Changes
 
 - Migration to typescript
@@ -37,5 +39,6 @@
 - add CHANGELOG.md (Issue #17)
 
 
-[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v4.5.3...HEAD
+[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v4.5.4...HEAD
+[4.5.4]: https://github.com/boillodmanuel/link-check/compare/v4.5.3...v4.5.4
 [4.5.3]: https://github.com/boillodmanuel/link-check/tree/v4.5.3
