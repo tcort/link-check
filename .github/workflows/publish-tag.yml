@@ -32,10 +32,16 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Test
+        run: npm test
+        env:
+          CI: true
+          
+      - name: Build
+        run: npm run build
+
       - name: Publish to npmjs
-        run: |
-          npm build
-          npm publish --access public
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

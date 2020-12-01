@@ -2,8 +2,6 @@
 
 ## [Unreleased][]
 
-## [5.0.0][] - 2020-12-01
-
 ### Added
 
 - Release on new tag with github action
