@@ -56,3 +56,15 @@ node -e 'require("./lib").linkCheck("https://httpbin.org/status/429", {debug: tr
 # Test retry on error
 node -e 'require("./lib").linkCheck("https://dont.exist", {debug: true, debugToStdErr: true, timeout: "1s", retryOnError: true, fallbackRetryDelay: "2s"}, function (err, result) { console.log(result)})'
 ```
+
+
+# Release
+
+
+Tag a new version with:
+
+```bash
+npm version major|minor|patch
+```
+
+Then github action will publish the tag and create a new release
