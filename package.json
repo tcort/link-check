@@ -1,5 +1,5 @@
 {
-  "name": "link-check",
+  "name": "@boillodmanuel/link-check",
   "version": "4.5.2",
   "description": "checks whether a hyperlink is alive (200 OK) or dead",
   "main": "dist/index.js",
@@ -9,12 +9,14 @@
     "lint": "eslint . --ext .ts",
     "pretest": "npm run lint",
     "test": "mocha --exit",
-    "build": "npm run lint && rm -rf ./dist && tsc -p tsconfig-build.json",
-    "postinstall": "tsc -p tsconfig-build.json"
+    "build": "npm run lint && rm -rf ./dist && tsc -p tsconfig-build.json"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/tcort/link-check.git"
+    "url": "git://github.com/boillodmanuel/link-check.git"
   },
   "keywords": [
     "link",
@@ -27,11 +29,14 @@
     "head"
   ],
   "author": "Thomas Cort <linuxgeek@gmail.com>",
+  "contributors": [
+    "Manuel Boillod"
+  ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tcort/link-check/issues"
+    "url": "https://github.com/boillodmanuel/link-check/issues"
   },
-  "homepage": "https://github.com/tcort/link-check#readme",
+  "homepage": "https://github.com/boillodmanuel/link-check#readme",
   "dependencies": {
     "is-relative-url": "^3.0.0",
     "isemail": "^3.2.0",
