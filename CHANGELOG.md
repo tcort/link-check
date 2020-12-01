@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [4.8.2][] - 2020-12-01
+
 
 ### Changes
 
@@ -38,7 +40,8 @@
 - add CHANGELOG.md (Issue #17)
 
 
-[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v4.8.1...HEAD
+[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v4.8.2...HEAD
+[4.8.2]: https://github.com/boillodmanuel/link-check/compare/v4.8.1...v4.8.2
 [4.8.1]: https://github.com/boillodmanuel/link-check/compare/v4.8.0...v4.8.1
 [4.8.0]: https://github.com/boillodmanuel/link-check/compare/v4.7.1...v4.8.0
 [4.7.1]: https://github.com/boillodmanuel/link-check/compare/v4.7.0...v4.7.1
