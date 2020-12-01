@@ -1,6 +1,7 @@
 import { LinkCheckResult } from './LinkCheckResult'
 
-export type Callback = (err: unknown | null, result?: LinkCheckResult) => void
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+export type Callback = (err: any | null, result?: LinkCheckResult) => void
 
 export interface Options {
     baseUrl?: string
