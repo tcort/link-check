@@ -2,7 +2,7 @@
 
 ## [Unreleased][]
 
-## [4.8.3][] - 2020-12-01
+## [4.8.3][] 2020-12-12
 
 ### Changes
 
@@ -10,12 +10,12 @@
 - BREAKING CHANGE: API change. We don't use `module export` anymore to export main function, so code `require('link-check')('http://example.com', ...)` should be rewritten using the named function like this `require('link-check').linkCheck('http://example.com', ...)`
 - Add `debug`, `debugToStdErr` and `retryOnError` options
 
-## Version 4.5.2
+## [4.5.2][] 2020-12-12
 
 - #25 fixes 429 "Too Many Requests" retries that don't follow standard (@NicolasMassart)
 - #22 Add support for retry count on 429 response codes (@andreizet)
 
-## Version 4.5.1
+## [4.5.1][] 2020-12-12
 
 - update dependencies
 

@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "getVersion": "node -e \"console.log(require('./package.json').version)\"",
     "format": "prettier --write \"{src,test}/**/*.ts\"",
     "lint": "eslint . --ext .ts",
     "pretest": "npm run lint",
