@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [5.0.0][] - 2020-12-01
+
 ### Added
 
 - Release on new tag with github action
@@ -44,5 +46,6 @@
 
 
 [Unreleased]: https://github.com/boillodmanuel/link-check/compare/v5.0.0...HEAD
+[5.0.0]: https://github.com/boillodmanuel/link-check/compare/v5.0.0...v5.0.0
 [5.0.0]: https://github.com/boillodmanuel/link-check/compare/v4.8.5...v5.0.0
 [4.8.3]: https://github.com/boillodmanuel/link-check/compare/v4.8.2...v4.8.3
