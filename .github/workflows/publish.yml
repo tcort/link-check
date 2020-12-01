@@ -32,16 +32,18 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build
-        run: npm build
-
       - name: Publish to npmjs
-        run: npm publish --access public
+        run: |
+          npm build
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Prepare changelog
-        run: cat CHANGELOG.md | sed -n '/3.8.2/,/## /p' | sed -e '$ d' > CHANGELOG-current-version.md
+      - name: Extract changelog
+        run: echo "CHANGELOG=$(cat CHANGELOG.md | sed -n '/3.8.2/,/## /p' | sed -e '$ d')" >> $GITHUB_ENV
+
+      - name: Debug changelog
+        run: echo "$CHANGELOG"
 
       - name: Create Github Release
         id: create_release
@@ -51,6 +53,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body_path: CHANGELOG-current-version.md
+          body: ${{ CHANGELOG }}
           draft: false
           prerelease: false
