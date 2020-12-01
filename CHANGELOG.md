@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [4.8.5][] - 2020-12-01
+
 ### Added
 
 - Release on new tag with github action
@@ -43,5 +45,6 @@
 - add CHANGELOG.md (Issue #17)
 
 
-[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v4.8.3...HEAD
+[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v4.8.5...HEAD
+[4.8.5]: https://github.com/boillodmanuel/link-check/compare/v4.8.3...v4.8.5
 [4.8.3]: https://github.com/boillodmanuel/link-check/compare/v4.8.2...v4.8.3
