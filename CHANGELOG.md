@@ -2,8 +2,6 @@
 
 ## [Unreleased][]
 
-## [4.7.1][] - 2020-12-01
-
 ### Changes
 
 - Migration to typescript
