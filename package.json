@@ -9,9 +9,9 @@
     "lint": "eslint . --ext .ts",
     "pretest": "npm run lint",
     "test": "mocha --exit",
-    "build": "npm run lint && npm run format && npm run build-ts",
+    "build": "npm run lint && npm run build-ts",
     "build-ts": "rm -rf ./dist && tsc -p tsconfig-build.json",
-    "preversion": "npm test && npm run build",
+    "preversion": "npm run format && npm test && npm run build",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md",
     "postversion": "git push && git push --tags"
   },
