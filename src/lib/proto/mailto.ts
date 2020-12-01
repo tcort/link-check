@@ -5,7 +5,7 @@ import { LinkCheckResult } from '../LinkCheckResult'
 
 @staticImplements<Protocol>()
 export class MailToProtocol {
-    public static check(link: string, opts: Options, callback: Callback): void {
+    public static check(link: string, opts: Options, callback: Callback<LinkCheckResult>): void {
         const address = link
             .substr(7) // strip "mailto:"
             .split('?')[0] // trim ?subject=blah hfields

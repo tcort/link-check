@@ -1,7 +1,7 @@
 import { LinkCheckResult } from './LinkCheckResult'
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-export type Callback = (err: any | null, result?: LinkCheckResult) => void
+export type Callback<T> = (err: any | null, result?: T) => void
 
 export interface Options {
     baseUrl?: string
@@ -25,5 +25,5 @@ export function staticImplements<T>(): <U extends T>(constructor: U) => void {
 }
 
 export interface Protocol {
-    check: (link: string, opts: Options, callback: Callback) => void
+    check: (link: string, opts: Options, callback: Callback<LinkCheckResult>) => void
 }

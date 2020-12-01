@@ -9,7 +9,7 @@ import { Callback, Options, Protocol, staticImplements } from '../types'
 
 @staticImplements<Protocol>()
 export class FileProtocol {
-    public static check(link: string, opts: Options, callback: Callback): void {
+    public static check(link: string, opts: Options, callback: Callback<LinkCheckResult>): void {
         if (opts.debug) {
             debug(opts.debugToStdErr, 0, "[fILE] Check link: '" + link + "'. Options: " + JSON.stringify(opts))
         }

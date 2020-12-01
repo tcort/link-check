@@ -9,7 +9,7 @@ import { BlackHole } from '../BlackHole'
 
 @staticImplements<Protocol>()
 export class HttpProtocol {
-    public static check(link: string, opts: Options, callback: Callback): void {
+    public static check(link: string, opts: Options, callback: Callback<LinkCheckResult>): void {
         // default request timeout set to 10s if not provided in options
         const timeout = opts.timeout || '10s'
 
@@ -45,12 +45,12 @@ export class HttpProtocol {
     }
 
     // prettier-ignore
-    private static doCheckWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string): void {
+    private static doCheckWithRetry(link: string, opts: Options, callback: Callback<LinkCheckResult>, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string): void {
         HttpProtocol.doHeadWithRetry(link, opts, callback, requestOptions, attempts, additionalMessage)
     }
 
     // prettier-ignore
-    public static doHeadWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string): void {
+    public static doHeadWithRetry(link: string, opts: Options, callback: Callback<LinkCheckResult>, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string): void {
         request.head(requestOptions, (err: unknown, res: request.Response): void => {
 
             if (opts.debug) {
@@ -72,7 +72,7 @@ export class HttpProtocol {
     }
 
     // prettier-ignore
-    public static doGetWithRetry(link: string, opts: Options, callback: Callback, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string): void {
+    public static doGetWithRetry(link: string, opts: Options, callback: Callback<LinkCheckResult>, requestOptions: request.OptionsWithUri, attempts: number, additionalMessage?: string): void {
         // if HEAD fails (405 Method Not Allowed, etc), try GET
         request.get(requestOptions, (err: unknown, res: request.Response): void => {
             if (opts.debug) {
