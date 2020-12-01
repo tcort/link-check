@@ -31,12 +31,16 @@ export class FileProtocol {
         }
 
         if (opts.debug) {
-            debug(opts.debugToStdErr, 0, "[fILE] Check file: '" + filepath + "'")
+            debug(opts.debugToStdErr, 0, "[FILE] Check file: '" + filepath + "'")
         }
 
         fs.access(filepath || '', fs.constants.R_OK, (err: Error | null) => {
             const statusCode = !err ? 200 : 404
-            callback(null, LinkCheckResult.fromStatus(opts, link, statusCode, err))
+            const result = LinkCheckResult.fromStatus(opts, link, statusCode, err)
+            if (opts.debug) {
+                debug(opts.debugToStdErr, 0, "[FILE] Result: '" + JSON.stringify(result) + "'")
+            }
+            callback(null, result)
         })
     }
 }
