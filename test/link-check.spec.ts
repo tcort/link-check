@@ -452,6 +452,7 @@ describe('link-check', function () {
             expect(result!.link).to.be(baseUrl + '/later-non-standard-header')
             expect(result!.status).to.be('alive')
             expect(result!.statusCode).to.be(200)
+            expect(result!.stats.retryCount).to.be(1)
             done()
         })
     })
@@ -463,6 +464,7 @@ describe('link-check', function () {
             expect(result!.link).to.be(baseUrl + '/later-no-header')
             expect(result!.status).to.be('alive')
             expect(result!.statusCode).to.be(200)
+            expect(result!.stats.retryCount).to.be(1)
             done()
         })
     })
@@ -478,6 +480,7 @@ describe('link-check', function () {
                 expect(result!.err).to.be(null)
                 expect(result!.status).to.be('alive')
                 expect(result!.statusCode).to.be(200)
+                expect(result!.stats.retryCount).to.be(2)
                 expect(laterCustomRetryCounter).to.be(3)
                 done()
             },
@@ -494,6 +497,7 @@ describe('link-check', function () {
                 expect(result!.err).to.be(null)
                 expect(result!.status).to.be('alive')
                 expect(result!.statusCode).to.be(200)
+                expect(result!.stats.retryCount).to.be(1)
                 expect(laterCustomRetryCounter).to.be(4)
                 done()
             },

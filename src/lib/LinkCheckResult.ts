@@ -8,6 +8,7 @@ export enum Status {
 
 export interface LinkCheckResultStats {
     durationInMs?: number
+    retryCount?: number
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -44,10 +45,6 @@ export class LinkCheckResult {
             err,
             additionalMessages,
         )
-    }
-
-    public setDurationInMs(durationInMs: number): void {
-        this.stats.durationInMs = durationInMs
     }
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */

@@ -93,7 +93,7 @@ function doLnkCheck(link: string, options: Options, callback: Callback<LinkCheck
             }
             linkResult = result
         }
-        linkResult.setDurationInMs(durationInMs)
+        linkResult.stats.durationInMs = durationInMs
         if (options.debug) {
             debug(options.debugToStdErr, 0, `[LINK] Result: ${JSON.stringify(linkResult)}`)
         }

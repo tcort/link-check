@@ -2,6 +2,10 @@
 
 ## [Unreleased][]
 
+### Added
+
+- Add statistic `retryCount`
+
 ## [5.2.0][] - 2020-12-02
 
 ### Added
