@@ -19,7 +19,7 @@ export class FileProtocol {
         } catch (err) {
             callback(`Error: unexpected error during decoding of link '${link} Error: ${err}`)
             return
-        }        
+        }
         if (opts.baseUrl) {
             const encodedURI: string = url.parse(opts.baseUrl, false, true).path || ''
             const basepath: string = decodeURI(encodedURI) || process.cwd()

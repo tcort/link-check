@@ -16,7 +16,11 @@ const protocols: { [key: string]: Protocol } = {
     mailto: MailToProtocol,
 }
 
-export function linkCheck(link: string, optionsArg: Options | Callback<LinkCheckResult>, callbackArg?: Callback<LinkCheckResult>): void {
+export function linkCheck(
+    link: string,
+    optionsArg: Options | Callback<LinkCheckResult>,
+    callbackArg?: Callback<LinkCheckResult>,
+): void {
     let options: Options
     let callback: Callback<LinkCheckResult>
 
@@ -40,12 +44,15 @@ function doLnkCheck(link: string, options: Options, callback: Callback<LinkCheck
     // get protocol from link when link is not relative
     let protocol = url.parse(link, false, true).protocol
 
-    if (!protocol) { // link is relative
+    if (!protocol) {
+        // link is relative
         // get protocol from base url when link is not relative
         if (options.baseUrl) {
             protocol = url.parse(options.baseUrl, false, true).protocol
             if (!protocol) {
-                const err = new Error(`Relative path could not be checked because protocol could not be determined from baseUrl options "${options.baseUrl}"`)
+                const err = new Error(
+                    `Relative path could not be checked because protocol could not be determined from baseUrl options "${options.baseUrl}"`,
+                )
                 if (options.debug) {
                     debug(options.debugToStdErr, 0, `[LINK] ERROR`, err)
                 }
@@ -61,7 +68,7 @@ function doLnkCheck(link: string, options: Options, callback: Callback<LinkCheck
             return
         }
     }
-    
+
     protocol = protocol.replace(/:$/, '')
     if (!Object.prototype.hasOwnProperty.call(protocols, protocol)) {
         const err = new Error(`Unsupported Protocol ${protocol}`)
