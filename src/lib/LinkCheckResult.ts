@@ -3,6 +3,11 @@ import { Options } from './types'
 export enum Status {
     ALIVE = 'alive',
     DEAD = 'dead',
+    ERROR = 'error',
+}
+
+export interface LinkCheckResultStats {
+    durationInMs?: number
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -12,6 +17,7 @@ export class LinkCheckResult {
     public readonly status: string
     public readonly err?: any
     public readonly additionalMessages?: string[]
+    public readonly stats: LinkCheckResultStats = {}
 
     /**
      * Generic constructor for inheritance
@@ -38,6 +44,10 @@ export class LinkCheckResult {
             err,
             additionalMessages,
         )
+    }
+
+    public setDurationInMs(durationInMs: number): void {
+        this.stats.durationInMs = durationInMs
     }
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */

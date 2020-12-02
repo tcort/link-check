@@ -78,15 +78,25 @@ function doLnkCheck(link: string, options: Options, callback: Callback<LinkCheck
         callback(err)
         return
     }
+    const startTime = new Date().getTime()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protocols[protocol].check(link, options, (err: any, result?: LinkCheckResult) => {
-        if (options.debug) {
-            if (err) {
-                debug(options.debugToStdErr, 0, `[LINK] ERROR`, err)
-            } else {
-                debug(options.debugToStdErr, 0, `[LINK] Result: ${JSON.stringify(result)}`)
+        const endTime = new Date().getTime()
+        const durationInMs = endTime - startTime
+        let linkResult
+        if (err) {
+            linkResult = new LinkCheckResult(link, 0, Status.ERROR, err)
+        } else {
+            if (!result) {
+                callback(new Error('Unexpected undefined result'))
+                return
             }
+            linkResult = result
         }
-        callback(err, result)
+        linkResult.setDurationInMs(durationInMs)
+        if (options.debug) {
+            debug(options.debugToStdErr, 0, `[LINK] Result: ${JSON.stringify(linkResult)}`)
+        }
+        callback(null, linkResult)
     })
 }

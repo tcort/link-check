@@ -2,6 +2,10 @@
 
 ## [Unreleased][]
 
+### Added
+
+- Add statistic `durationInMs`
+
 ## [5.1.0][] - 2020-12-02
 
 ### Added
