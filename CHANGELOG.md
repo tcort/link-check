@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [5.1.0][] - 2020-12-02
+
 ### Added
 
 - Improve error message 
@@ -50,7 +52,8 @@
 - add CHANGELOG.md (Issue #17)
 
 
-[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v5.0.2...HEAD
+[Unreleased]: https://github.com/boillodmanuel/link-check/compare/v5.1.0...HEAD
+[5.1.0]: https://github.com/boillodmanuel/link-check/compare/v5.0.2...v5.1.0
 [5.0.2]: https://github.com/boillodmanuel/link-check/compare/v5.0.1...v5.0.2
 [5.0.1]: https://github.com/boillodmanuel/link-check/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/boillodmanuel/link-check/compare/v5.0.0...v5.0.0
