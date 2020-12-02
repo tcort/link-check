@@ -101,7 +101,7 @@ export class HttpProtocol {
                     }
                 } else {
                     // fallback retry delay will default to 60 seconds not provided in options
-                    const fallbackRetryDelayInMs = ms(opts.fallbackRetryDelay || '60s');
+                    const fallbackRetryDelayInMs = ms(opts.fallbackRetryDelay || '5s');
                     retryInMs = fallbackRetryDelayInMs;
                 }
                 // Recurse back after the retry timeout has elapsed (incrementing our retryCount to avoid an infinite loop)

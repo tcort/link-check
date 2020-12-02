@@ -8,6 +8,10 @@
 
 - Add statistic `retryCount`
 
+### Changes
+
+- Set `fallbackRetryDelay` default to 5s instead of 60s
+
 ## [5.2.0][] - 2020-12-02
 
 ### Added
