@@ -10,6 +10,9 @@ import { BlackHole } from '../BlackHole'
 @staticImplements<Protocol>()
 export class HttpProtocol {
     public static check(link: string, opts: Options, callback: Callback<LinkCheckResult>): void {
+        if (opts.debug) {
+            debug(opts.debugToStdErr, 0, `[HTTP] Check link "${link}", options= ${JSON.stringify(opts)}`)
+        }
         // default request timeout set to 10s if not provided in options
         const timeout = opts.timeout || '10s'
 

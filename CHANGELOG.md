@@ -2,6 +2,11 @@
 
 ## [Unreleased][]
 
+### Added
+
+- Improve error message 
+- Improve debug infos
+
 ## [5.0.2][] - 2020-12-01
 
 ### Added

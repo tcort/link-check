@@ -4,6 +4,7 @@ import { LinkCheckResult, Status } from './lib/LinkCheckResult'
 import { FileProtocol } from './lib/proto/file'
 import { HttpProtocol } from './lib/proto/http'
 import { MailToProtocol } from './lib/proto/mailto'
+import { debug } from './lib/debug'
 
 export { Options, Callback }
 export { LinkCheckResult, Status }
@@ -33,7 +34,9 @@ export function linkCheck(link: string, optionsArg: Options | Callback<LinkCheck
 }
 
 function doLnkCheck(link: string, options: Options, callback: Callback<LinkCheckResult>): void {
-    
+    if (options.debug) {
+        debug(options.debugToStdErr, 0, `[LINK] Check link "${link}", options= ${JSON.stringify(options)}`)
+    }
     // get protocol from link when link is not relative
     let protocol = url.parse(link, false, true).protocol
 
@@ -42,20 +45,41 @@ function doLnkCheck(link: string, options: Options, callback: Callback<LinkCheck
         if (options.baseUrl) {
             protocol = url.parse(options.baseUrl, false, true).protocol
             if (!protocol) {
-                callback(new Error(`Relative path could not be checked because protocol could not be determine from baseUrl options "${options.baseUrl}"`))
+                const err = new Error(`Relative path could not be checked because protocol could not be determined from baseUrl options "${options.baseUrl}"`)
+                if (options.debug) {
+                    debug(options.debugToStdErr, 0, `[LINK] ERROR`, err)
+                }
+                callback(err)
                 return
             }
         } else {
-            callback(new Error('Relative path could not be checked when baseUrl options is not set'))
+            const err = new Error('Relative path could not be checked when baseUrl options is not set')
+            if (options.debug) {
+                debug(options.debugToStdErr, 0, `[LINK] ERROR`, err)
+            }
+            callback(err)
             return
         }
     }
     
     protocol = protocol.replace(/:$/, '')
     if (!Object.prototype.hasOwnProperty.call(protocols, protocol)) {
-        callback(new Error(`Unsupported Protocol ${protocol}`), )
+        const err = new Error(`Unsupported Protocol ${protocol}`)
+        if (options.debug) {
+            debug(options.debugToStdErr, 0, `[LINK] ERROR`, err)
+        }
+        callback(err)
         return
     }
-
-    protocols[protocol].check(link, options, callback)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protocols[protocol].check(link, options, (err: any, result?: LinkCheckResult) => {
+        if (options.debug) {
+            if (err) {
+                debug(options.debugToStdErr, 0, `[LINK] ERROR`, err)
+            } else {
+                debug(options.debugToStdErr, 0, `[LINK] Result: ${JSON.stringify(result)}`)
+            }
+        }
+        callback(err, result)
+    })
 }
