@@ -1,5 +1,9 @@
 # Changes
 
+## Version 4.5.3
+
+* #76 encode urls to prevent unicode chars to fail
+
 ## Version 4.5.2
 
 * #25 fixes 429 "Too Many Requests" retries that don't follow standard (@NicolasMassart)
