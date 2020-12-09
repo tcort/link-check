@@ -1,5 +1,9 @@
 # Changes
 
+## Version 4.5.4
+
+* #35 fix encode by adding decode first
+
 ## Version 4.5.3
 
 * #76 encode urls to prevent unicode chars to fail
