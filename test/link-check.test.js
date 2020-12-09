@@ -124,6 +124,10 @@ describe('link-check', function () {
             res.sendStatus(200);
         });
 
+        app.get('/url_\\(with_parentheses\\)', function (req, res) {
+            res.sendStatus(200);
+        });
+
         const server = http.createServer(app);
         server.listen(0 /* random open port */, 'localhost', function serverListen(err) {
             if (err) {
@@ -464,6 +468,18 @@ describe('link-check', function () {
     it('should handle unicode chars in URLs', function(done) {
         laterCustomRetryCounter = 0;
         linkCheck(baseUrl + '/url_with_unicode–', function(err, result) {
+            expect(err).to.be(null);
+            expect(result.err).to.be(null);
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            done();
+        });
+    });
+
+    it('should not encode already encoded characters', function(done) {
+        laterCustomRetryCounter = 0;
+        linkCheck(baseUrl + '/url_%28with_parentheses%29', function(err, result) {
+          console.log(err, result);
             expect(err).to.be(null);
             expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
