@@ -1,5 +1,7 @@
 "use strict";
 
+const { URL } = require('url');
+
 const protocols = {
     file: require('./lib/proto/file'),
     http: require('./lib/proto/http'),
