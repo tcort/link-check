@@ -226,7 +226,7 @@ describe('link-check', function () {
             expect(result.link).to.be(baseUrl + '/hang');
             expect(result.status).to.be('dead');
             expect(result.statusCode).to.be(0);
-            expect(result.err.message).to.contain('TIMEDOUT');
+            expect(result.err.code).to.be('ECONNRESET');
             done();
         });
     });
@@ -384,7 +384,7 @@ describe('link-check', function () {
             expect(result.link).to.be(baseUrl + '/loop');
             expect(result.status).to.be('dead');
             expect(result.statusCode).to.be(0);
-            expect(result.err.message).to.contain('Exceeded maxRedirects.');
+            expect(result.err.message).to.contain('Max redirects reached');
             done();
         });
     });
