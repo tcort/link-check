@@ -479,7 +479,6 @@ describe('link-check', function () {
     it('should not encode already encoded characters', function(done) {
         laterCustomRetryCounter = 0;
         linkCheck(baseUrl + '/url_%28with_parentheses%29', function(err, result) {
-          console.log(err, result);
             expect(err).to.be(null);
             expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
