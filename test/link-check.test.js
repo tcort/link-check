@@ -215,7 +215,7 @@ describe('link-check', function () {
             expect(result.link).to.be(badLink);
             expect(result.status).to.be('dead');
             expect(result.statusCode).to.be(0);
-            expect(result.err.message).to.contain('ENOTFOUND');
+            expect(result.err.code).to.contain('ENOTFOUND');
             done();
         });
     });
