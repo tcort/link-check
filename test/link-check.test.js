@@ -124,7 +124,7 @@ describe('link-check', function () {
             res.sendStatus(200);
         });
 
-        app.get('/url_\\(with_parentheses\\)', function (req, res) {
+        app.get('/url_with_special_chars\\(\\)\\+', function (req, res) {
             res.sendStatus(200);
         });
 
@@ -465,8 +465,9 @@ describe('link-check', function () {
         });
     });
 
-    it('should handle unicode chars in URLs', function(done) {
-        laterCustomRetryCounter = 0;
+    // See issue #23
+    it('should handle non URL encoded unicode chars in URLs', function(done) {
+        //last char is 	EN DASH
         linkCheck(baseUrl + '/url_with_unicode–', function(err, result) {
             expect(err).to.be(null);
             expect(result.err).to.be(null);
@@ -476,9 +477,9 @@ describe('link-check', function () {
         });
     });
 
-    it('should not encode already encoded characters', function(done) {
-        laterCustomRetryCounter = 0;
-        linkCheck(baseUrl + '/url_%28with_parentheses%29', function(err, result) {
+    // See issues #34 and #40
+    it('should not URL encode already encoded characters', function(done) {
+        linkCheck(baseUrl + '/url_with_special_chars%28%29%2B', function(err, result) {
             expect(err).to.be(null);
             expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
