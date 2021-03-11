@@ -1,6 +1,7 @@
 "use strict";
 
-const url = require('url');
+const { URL } = require('url');
+
 const protocols = {
     file: require('./lib/proto/file'),
     http: require('./lib/proto/http'),
@@ -16,7 +17,9 @@ module.exports = function linkCheck(link, opts, callback) {
         opts = {};
     }
 
-    const protocol = (url.parse(link, false, true).protocol || url.parse(opts.baseUrl, false, true).protocol || 'unknown:').replace(/:$/, '');
+    const url = new URL(link, opts.baseUrl);
+    const protocol = url.protocol.replace(/:$/, '');
+
     if (!protocols.hasOwnProperty(protocol)) {
         callback(new Error('Unsupported Protocol'), null);
         return;
