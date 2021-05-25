@@ -1,5 +1,22 @@
 # Changes
 
+## Version 5.0.0
+
+This release contains the following potentially breaking changes:
+
+- bad/expired/unauthorized HTTPS certificate errors are no longer ignored.
+ - sites with bad certs are no longer considered `alive`
+- `User-Agent` header no longer impersonates Firefox.
+ - defaults to `link-check/5.0.0` (override via `opts.user_agent`).
+
+Changes:
+
+* #46 provide accurate user-agent string
+* #44 update to use WHATWG URL API
+* #40 use a broader URL encoding function
+* #30 reject unauthorized TLS connections (i.e. don't allow bad certs)
+* #29 replace Request deprecated dependency by Needle
+
 ## Version 4.5.4
 
 * #35 fix encode by adding decode first
