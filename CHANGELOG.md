@@ -1,5 +1,11 @@
 # Changes
 
+## Version 5.0.1
+
+Changes:
+
+* #49 upgrade dependencies
+
 ## Version 5.0.0
 
 This release contains the following potentially breaking changes:
