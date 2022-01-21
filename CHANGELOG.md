@@ -1,5 +1,11 @@
 # Changes
 
+## Version 5.0.2
+
+Changes:
+
+* upgrade dependencies
+
 ## Version 5.0.1
 
 Changes:
