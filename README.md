@@ -28,6 +28,7 @@ Parameters:
 
  * `url` string containing a URL.
  * `opts` optional options object containing any of the following optional fields:
+   * `anchors` array of anchor strings (e.g. `[ "#foo", "#bar" ]`) for checking anchor links (e.g. `<a href="#foo">Foo</a>`).
    * `baseUrl` the base URL for relative links.
    * `timeout` timeout in [zeit/ms](https://www.npmjs.com/package/ms) format. (e.g. `"2000ms"`, `20s`, `1m`). Default `10s`.
    * `user_agent` the user-agent string. Default `${name}/${version}` (e.g. `link-check/4.5.5`)

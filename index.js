@@ -3,6 +3,7 @@
 const { URL } = require('url');
 
 const protocols = {
+    hash: require('./lib/proto/hash'),
     file: require('./lib/proto/file'),
     http: require('./lib/proto/http'),
     https: require('./lib/proto/https'),
@@ -17,8 +18,8 @@ module.exports = function linkCheck(link, opts, callback) {
         opts = {};
     }
 
-    const url = new URL(link, opts.baseUrl);
-    const protocol = url.protocol.replace(/:$/, '');
+    const url = link.startsWith('#') ? link : new URL(link, opts.baseUrl);
+    const protocol = link.startsWith('#') ? 'hash' : url.protocol.replace(/:$/, '');
 
     if (!protocols.hasOwnProperty(protocol)) {
         callback(new Error('Unsupported Protocol'), null);

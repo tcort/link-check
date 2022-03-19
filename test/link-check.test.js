@@ -488,4 +488,20 @@ describe('link-check', function () {
         });
     });
 
+    it('should support hash links', function (done) {
+        linkCheck('#foo', { anchors: ['#foo'] }, function (err, result) {
+            expect(err).to.be(null);
+            expect(result.err).to.be(null);
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            linkCheck('#bar', { anchors: ['#foo'] }, function (err, result) {
+                expect(err).to.be(null);
+                expect(result.err).to.be(null);
+                expect(result.status).to.be('dead');
+                expect(result.statusCode).to.be(404);
+                done();
+            });
+        });
+    });
+
 });
