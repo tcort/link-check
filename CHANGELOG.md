@@ -1,5 +1,11 @@
 # Changes
 
+## Version 5.1.0
+
+Changes:
+
+* support for hash links
+
 ## Version 5.0.3
 
 Changes:
