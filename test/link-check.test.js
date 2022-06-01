@@ -11,6 +11,7 @@ describe('link-check', function () {
 
     let baseUrl;
     let laterCustomRetryCounter;
+    let retriedWithPuppeteer = false;
 
     before(function (done) {
         const app = express();
@@ -61,6 +62,19 @@ describe('link-check', function () {
             }else{
               res.setHeader('retry-after', 1);
               res.sendStatus(429);
+            }
+        });
+
+        // prevent first header try to be a hit
+        app.head('/later-puppeteer-retry', function (req, res) {
+            res.sendStatus(405); // method not allowed
+        });
+        app.get('/later-puppeteer-retry', function (req, res) {
+            if (retriedWithPuppeteer) {
+                res.sendStatus(200);
+            } else {
+                retriedWithPuppeteer = true;
+                res.sendStatus(429);
             }
         });
 
@@ -457,6 +471,16 @@ describe('link-check', function () {
     it('should retry 3 times for 429 status codes', function(done) {
         laterCustomRetryCounter = 0;
         linkCheck(baseUrl + '/later-custom-retry-count?successNumber=3', { retryOn429: true, retryCount: 3 }, function(err, result) {
+            expect(err).to.be(null);
+            expect(result.err).to.be(null);
+            expect(result.status).to.be('alive');
+            expect(result.statusCode).to.be(200);
+            done();
+        });
+    });
+
+    it('should retry with puppeteer', function (done) {
+        linkCheck(baseUrl + '/later-puppeteer-retry', { retryWithPuppeteer: true }, function (err, result) {
             expect(err).to.be(null);
             expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
