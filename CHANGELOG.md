@@ -1,5 +1,13 @@
 # Changes
 
+## Version 5.2.0
+
+Changes:
+
+* add `open_timeout` option @Colin-Whelan #51
+* don't parse HTTP response @sadra-barikbin #57
+* upgrade dependencies
+
 ## Version 5.1.0
 
 Changes:
