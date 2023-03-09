@@ -21,7 +21,7 @@ module.exports = function linkCheck(link, opts, callback) {
     const url = link.startsWith('#') ? link : new URL(link, opts.baseUrl);
     const protocol = link.startsWith('#') ? 'hash' : url.protocol.replace(/:$/, '');
 
-    if (!protocols.hasOwnProperty(protocol)) {
+    if (!Object.prototype.hasOwnProperty.call(protocols,protocol)) {
         callback(new Error('Unsupported Protocol'), null);
         return;
     }

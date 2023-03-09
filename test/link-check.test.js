@@ -33,7 +33,7 @@ describe('link-check', function () {
             res.redirect('/loop');
         });
 
-        app.get('/hang', function (req, res) {
+        app.get('/hang', function () {
             // no reply
         });
 
@@ -434,7 +434,7 @@ describe('link-check', function () {
         linkCheck(baseUrl + '/later-non-standard-header', { retryOn429: true },  function (err, result) {
             expect(err).to.be(null);
             expect(result.err).not.to.be(null)
-            expect(result.err).to.contain("Server returned a non standard \'retry-after\' header.");
+            expect(result.err).to.contain("Server returned a non standard 'retry-after' header.");
             expect(result.link).to.be(baseUrl + '/later-non-standard-header');
             expect(result.status).to.be('alive');
             expect(result.statusCode).to.be(200);
