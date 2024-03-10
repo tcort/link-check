@@ -1,5 +1,12 @@
 # Changes
 
+## Version 5.3.0
+
+* fix failing github action with IPv6 @dklimpel
+* Add http proxy support @dklimpel
+* docs: Format with Markdownlint @nschonni
+* upgrade dependencies
+
 ## Version 5.2.0
 
 Changes:
