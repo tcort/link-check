@@ -36,10 +36,10 @@ Changes:
 
 This release contains the following potentially breaking changes:
 
-- bad/expired/unauthorized HTTPS certificate errors are no longer ignored.
- - sites with bad certs are no longer considered `alive`
-- `User-Agent` header no longer impersonates Firefox.
- - defaults to `link-check/5.0.0` (override via `opts.user_agent`).
+* bad/expired/unauthorized HTTPS certificate errors are no longer ignored.
+  * sites with bad certs are no longer considered `alive`
+* `User-Agent` header no longer impersonates Firefox.
+  * defaults to `link-check/5.0.0` (override via `opts.user_agent`).
 
 Changes:
 
