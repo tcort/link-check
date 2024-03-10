@@ -43,7 +43,7 @@ describe('link-check', function () {
 
         app.get('/basic-auth', function (req, res) {
 
-            if (req.headers["authorization"] === "Basic Zm9vOmJhcg==") {
+            if (req.headers.authorization === "Basic Zm9vOmJhcg==") {
                 return res.sendStatus(200);
             }
             res.sendStatus(401);
@@ -301,7 +301,7 @@ describe('link-check', function () {
 
             expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
-            done()
+            done();
         });
     });
 
@@ -311,7 +311,7 @@ describe('link-check', function () {
 
             expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
-            done()
+            done();
         });
     });
 
@@ -321,7 +321,7 @@ describe('link-check', function () {
 
             expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
-            done()
+            done();
         });
     });
 
@@ -331,7 +331,7 @@ describe('link-check', function () {
 
             expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
-            done()
+            done();
         });
     });
 
@@ -341,7 +341,7 @@ describe('link-check', function () {
 
             expect(result.err).to.be(null);
             expect(result.status).to.be('alive');
-            done()
+            done();
         });
     });
 
@@ -351,7 +351,7 @@ describe('link-check', function () {
 
             expect(result.err.code).to.be('ENOENT');
             expect(result.status).to.be('dead');
-            done()
+            done();
         });
     });
 
@@ -363,7 +363,7 @@ describe('link-check', function () {
             expect(result.status).to.be('alive');
             expect(result.statusCode).to.be(200);
             expect(result.err).to.be(null);
-            done()
+            done();
         });
     });
 
@@ -372,7 +372,7 @@ describe('link-check', function () {
             expect(err).to.be(null);
 
             expect(result.link).to.be('#foobar');
-            done()
+            done();
         });
     });
 
@@ -439,7 +439,7 @@ describe('link-check', function () {
     it('should retry after the provided delay on HTTP 429 with non standard header, and return a warning', function (done) {
         linkCheck(baseUrl + '/later-non-standard-header', { retryOn429: true },  function (err, result) {
             expect(err).to.be(null);
-            expect(result.err).not.to.be(null)
+            expect(result.err).not.to.be(null);
             expect(result.err).to.contain("Server returned a non standard \'retry-after\' header.");
             expect(result.link).to.be(baseUrl + '/later-non-standard-header');
             expect(result.status).to.be('alive');

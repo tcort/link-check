@@ -4,7 +4,7 @@
   "description": "checks whether a hyperlink is alive (200 OK) or dead",
   "main": "index.js",
   "scripts": {
-    "pretest": "jshint index.js",
+    "pretest": "jshint index.js lib test",
     "test": "mocha -R spec --exit"
   },
   "repository": {
@@ -42,6 +42,7 @@
     "mocha": "^10.3.0"
   },
   "jshintConfig": {
+    "esversion": 11,
     "bitwise": true,
     "curly": true,
     "eqeqeq": true,
