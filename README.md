@@ -1,4 +1,4 @@
-![Test library workflow status](https://github.com/tcort/link-check/workflows/Test%20library/badge.svg)
+![Test library](https://github.com/tcort/link-check/actions/workflows/ci.yml/badge.svg)
 
 # link-check
 
