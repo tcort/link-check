@@ -17,8 +17,8 @@ eventually ends in a `200 OK` response. To minimize bandwidth, an HTTP HEAD
 is performed. If that fails (e.g. with a `405 Method Not Allowed`), an HTTP
 GET is performed. Redirects are followed.
 
-In the case of `mailto:` links, this module validates the e-mail address
-using [isemail](https://www.npmjs.com/package/isemail).
+In the case of `mailto:` links, this module validates the e-mail address using
+[node-email-verifier](https://www.npmjs.com/package/node-email-verifier).
 
 ## API
 
@@ -52,7 +52,7 @@ Parameters:
 ```js
 'use strict';
 
-const linkCheck = require('link-check');
+import linkCheck from 'link-check';
 
 linkCheck('http://example.com', function (err, result) {
     if (err) {
@@ -68,7 +68,7 @@ linkCheck('http://example.com', function (err, result) {
 ```js
 'use strict';
 
-const linkCheck = require('link-check');
+import linkCheck from 'link-check';
 
 linkCheck('http://example.com', { headers: { 'Authorization': 'Basic Zm9vOmJhcg==' } }, function (err, result) {
     if (err) {
