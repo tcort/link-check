@@ -1,9 +1,13 @@
 'use strict';
 
-const expect = require('expect.js');
-const http = require('http');
-const express = require('express');
-const linkCheck = require('../');
+import expect from 'expect.js';
+import http from 'http';
+import express from 'express';
+import linkCheck from '../index.js';
+
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const moduleDirname = dirname(fileURLToPath(import.meta.url));
 
 describe('link-check', function () {
 
@@ -268,6 +272,18 @@ describe('link-check', function () {
         });
     });
 
+    it('should handle timeout for mailto validation', function (done) {
+        linkCheck('mailto:linuxgeek@gmail.com', { timeout: '1ms' }, function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be('mailto:linuxgeek@gmail.com');
+            expect(result.status).to.be('dead');
+            expect(result.statusCode).to.be(0);
+            expect(result.err.code).to.be('ECONNRESET');
+            expect(result.err.message).to.be('Domain MX lookup timed out');
+            done();
+        });
+    });
+
     it('should handle valid mailto with encoded characters in address', function (done) {
         linkCheck('mailto:foo%20bar@example.org', function (err, result) {
             expect(err).to.be(null);
@@ -286,6 +302,15 @@ describe('link-check', function () {
         });
     });
 
+    it('should handle valid mailto with invalid domain without MX record', function (done) {
+        linkCheck('mailto:linuxgeek@gmai.lcom', function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be('mailto:linuxgeek@gmai.lcom');
+            expect(result.status).to.be('dead');
+            done();
+        });
+    });
+
     it('should handle invalid mailto', function (done) {
         linkCheck('mailto:foo@@bar@@baz', function (err, result) {
             expect(err).to.be(null);
@@ -296,7 +321,7 @@ describe('link-check', function () {
     });
 
     it('should handle file protocol', function(done) {
-        linkCheck('fixtures/file.md', { baseUrl: 'file://' + __dirname }, function(err, result) {
+        linkCheck('fixtures/file.md', { baseUrl: 'file://' + moduleDirname }, function(err, result) {
             expect(err).to.be(null);
 
             expect(result.err).to.be(null);
@@ -306,7 +331,7 @@ describe('link-check', function () {
     });
 
     it('should handle file protocol with fragment', function(done) {
-        linkCheck('fixtures/file.md#section-1', { baseUrl: 'file://' + __dirname }, function(err, result) {
+        linkCheck('fixtures/file.md#section-1', { baseUrl: 'file://' + moduleDirname }, function(err, result) {
             expect(err).to.be(null);
 
             expect(result.err).to.be(null);
@@ -316,7 +341,7 @@ describe('link-check', function () {
     });
 
     it('should handle file protocol with query', function(done) {
-        linkCheck('fixtures/file.md?foo=bar', { baseUrl: 'file://' + __dirname }, function(err, result) {
+        linkCheck('fixtures/file.md?foo=bar', { baseUrl: 'file://' + moduleDirname }, function(err, result) {
             expect(err).to.be(null);
 
             expect(result.err).to.be(null);
@@ -326,7 +351,7 @@ describe('link-check', function () {
     });
 
     it('should handle file path containing spaces', function(done) {
-        linkCheck('fixtures/s p a c e/A.md', { baseUrl: 'file://' + __dirname }, function(err, result) {
+        linkCheck('fixtures/s p a c e/A.md', { baseUrl: 'file://' + moduleDirname }, function(err, result) {
             expect(err).to.be(null);
 
             expect(result.err).to.be(null);
@@ -336,7 +361,7 @@ describe('link-check', function () {
     });
 
     it('should handle baseUrl containing spaces', function(done) {
-        linkCheck('A.md', { baseUrl: 'file://' + __dirname + '/fixtures/s p a c e'}, function(err, result) {
+        linkCheck('A.md', { baseUrl: 'file://' + moduleDirname + '/fixtures/s p a c e'}, function(err, result) {
             expect(err).to.be(null);
 
             expect(result.err).to.be(null);
@@ -346,7 +371,7 @@ describe('link-check', function () {
     });
 
     it('should handle file protocol and invalid files', function(done) {
-        linkCheck('fixtures/missing.md', { baseUrl: 'file://' + __dirname }, function(err, result) {
+        linkCheck('fixtures/missing.md', { baseUrl: 'file://' + moduleDirname }, function(err, result) {
             expect(err).to.be(null);
 
             expect(result.err.code).to.be('ENOENT');

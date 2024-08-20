@@ -1,16 +1,22 @@
 "use strict";
 
-const { URL } = require('url');
+import { URL } from 'url';
+
+import check_hash from './lib/proto/hash.js';
+import check_file from './lib/proto/file.js';
+import check_http from './lib/proto/http.mjs';
+import check_https from './lib/proto/https.js';
+import check_mailto from './lib/proto/mailto.js';
 
 const protocols = {
-    hash: require('./lib/proto/hash'),
-    file: require('./lib/proto/file'),
-    http: require('./lib/proto/http'),
-    https: require('./lib/proto/https'),
-    mailto: require('./lib/proto/mailto'),
+    hash: { check: check_hash },
+    file: { check: check_file },
+    http: { check: check_http },
+    https: { check: check_https },
+    mailto: { check: check_mailto }
 };
 
-module.exports = function linkCheck(link, opts, callback) {
+function linkCheck(link, opts, callback) {
 
     if (arguments.length === 2 && typeof opts === 'function') {
         // optional 'opts' not supplied.
@@ -27,6 +33,10 @@ module.exports = function linkCheck(link, opts, callback) {
     }
 
     protocols[protocol].check(link, opts, callback);
-};
+}
 
-module.exports.LinkCheckResult = require('./lib/LinkCheckResult');
+import LinkCheckResult from './lib/LinkCheckResult.js';
+
+export { linkCheck, LinkCheckResult };
+
+export default linkCheck;
