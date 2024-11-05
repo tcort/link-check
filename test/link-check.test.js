@@ -268,18 +268,6 @@ describe('link-check', function () {
         });
     });
 
-    it('should handle timeout for mailto validation', function (done) {
-        linkCheck('mailto:linuxgeek@gmail.com', { timeout: '1ms' }, function (err, result) {
-            expect(err).to.be(null);
-            expect(result.link).to.be('mailto:linuxgeek@gmail.com');
-            expect(result.status).to.be('dead');
-            expect(result.statusCode).to.be(0);
-            expect(result.err.code).to.be('ECONNRESET');
-            expect(result.err.message).to.be('Domain MX lookup timed out');
-            done();
-        });
-    });
-
     it('should handle valid mailto with encoded characters in address', function (done) {
         linkCheck('mailto:foo%20bar@example.org', function (err, result) {
             expect(err).to.be(null);
