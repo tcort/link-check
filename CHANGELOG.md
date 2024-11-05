@@ -1,5 +1,15 @@
 # Changes
 
+## Version 5.4.0
+
+* Defer protocol imports #89 @mondeja
+* Decrease package size #90 @mondeja
+* ci: use current node.js versions in matrix build #93 @MikeMcC399
+* Replace isemail to fix deprecation warning #94 @rkitover
+* Fix #79, keep HTTP method when following #80 @MrThanlon
+* fix test badge on README #74 @dklimpel
+* upgrade dependencies
+
 ## Version 5.3.0
 
 * fix failing github action with IPv6 @dklimpel
