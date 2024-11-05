@@ -3,11 +3,11 @@
 const { URL } = require('url');
 
 const protocols = {
-    hash: require('./lib/proto/hash'),
-    file: require('./lib/proto/file'),
-    http: require('./lib/proto/http'),
-    https: require('./lib/proto/https'),
-    mailto: require('./lib/proto/mailto'),
+    hash: function () { return require('./lib/proto/hash'); },
+    file: function () { return require('./lib/proto/file'); },
+    http: function () { return require('./lib/proto/http'); },
+    https: function () { return require('./lib/proto/https'); },
+    mailto: function () { return require('./lib/proto/mailto'); },
 };
 
 module.exports = function linkCheck(link, opts, callback) {
@@ -26,7 +26,7 @@ module.exports = function linkCheck(link, opts, callback) {
         return;
     }
 
-    protocols[protocol].check(link, opts, callback);
+    protocols[protocol]().check(link, opts, callback);
 };
 
 module.exports.LinkCheckResult = require('./lib/LinkCheckResult');
