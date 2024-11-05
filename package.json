@@ -3,6 +3,12 @@
   "version": "5.3.0",
   "description": "checks whether a hyperlink is alive (200 OK) or dead",
   "main": "index.js",
+  "files": [
+    "CHANGELOG.md",
+    "LICENSE.md",
+    "README.md",
+    "lib"
+  ],
   "scripts": {
     "pretest": "jshint index.js lib test",
     "test": "mocha -R spec --exit"
