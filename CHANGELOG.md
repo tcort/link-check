@@ -1,6 +1,14 @@
 # Changes
 
+## Version 5.5.0
+
+Changes:
+
+* support multiple e-mail addresses in a single `mailto:` @DanielYang59
+
 ## Version 5.4.0
+
+Changes:
 
 * Defer protocol imports #89 @mondeja
 * Decrease package size #90 @mondeja
@@ -11,6 +19,8 @@
 * upgrade dependencies
 
 ## Version 5.3.0
+
+Changes:
 
 * fix failing github action with IPv6 @dklimpel
 * Add http proxy support @dklimpel
