@@ -270,10 +270,10 @@ describe('link-check', function () {
 
     it('should handle valid mailto with multiple recipients', function (done) {
         linkCheck(
-            'mailto:alice@example.org,bob@example.net?subject=Test',
+            'MAILTO:alice@example.org,bob@example.net?subject=Test',
             function (err, result) {
                 expect(err).to.be(null);
-                expect(result.link).to.be('mailto:alice@example.org,bob@example.net?subject=Test');
+                expect(result.link).to.be('MAILTO:alice@example.org,bob@example.net?subject=Test');
                 expect(result.status).to.be('alive');
                 done();
             }
