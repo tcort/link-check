@@ -37,13 +37,13 @@
     "is-relative-url": "^4.0.0",
     "ms": "^2.1.3",
     "needle": "^3.3.1",
-    "node-email-verifier": "^2.0.0",
+    "node-email-verifier": "^3.4.1",
     "proxy-agent": "^6.4.0"
   },
   "devDependencies": {
     "debug": "^4.3.7",
     "expect.js": "^0.3.1",
-    "express": "^4.21.1",
+    "express": "^5.1.0",
     "jshint": "^2.13.6",
     "mocha": "^11.1.0"
   },
