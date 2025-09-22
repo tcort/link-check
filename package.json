@@ -43,7 +43,7 @@
   "devDependencies": {
     "debug": "^4.3.7",
     "expect.js": "^0.3.1",
-    "express": "^4.21.1",
+    "express": "^5.1.0",
     "jshint": "^2.13.6",
     "mocha": "^11.1.0"
   },
