@@ -259,6 +259,17 @@ describe('link-check', function () {
         });
     });
 
+    it('should allow disabling redirects', function (done) {
+        linkCheck(baseUrl + '/foo/redirect', {maxRedirects: 0}, function (err, result) {
+            expect(err).to.be(null);
+            expect(result.link).to.be(baseUrl + '/foo/redirect');
+            expect(result.status).to.be('dead');
+            expect(result.statusCode).to.be(302);
+            expect(result.err).to.be(null);
+            done();
+        });
+    });
+
     it('should handle valid mailto', function (done) {
         linkCheck('mailto:linuxgeek@gmail.com', function (err, result) {
             expect(err).to.be(null);
