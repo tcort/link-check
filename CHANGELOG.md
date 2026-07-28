@@ -1,5 +1,12 @@
 # Changes
 
+## Version 5.6.0
+
+Changes:
+
+* feat: Allow configuring max redirects by @avorima
+* upgrade dependencies
+
 ## Version 5.5.1
 
 Changes:
