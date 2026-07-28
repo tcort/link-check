@@ -1,6 +1,6 @@
 {
   "name": "link-check",
-  "version": "5.5.1",
+  "version": "5.6.0",
   "description": "checks whether a hyperlink is alive (200 OK) or dead",
   "main": "index.js",
   "files": [
